@@ -1,11 +1,14 @@
-package mpeciakk
+package mpeciakk.packet
 
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.ByteBufAllocator
+import io.netty.buffer.ByteBufOutputStream
 import io.netty.buffer.Unpooled
 import io.netty.handler.codec.DecoderException
 import io.netty.handler.codec.EncoderException
 import io.netty.util.ByteProcessor
+import mpeciakk.nbt.NbtIo
+import mpeciakk.nbt.Tag
 import java.io.InputStream
 import java.io.OutputStream
 import java.nio.ByteBuffer
@@ -15,8 +18,8 @@ import java.nio.channels.GatheringByteChannel
 import java.nio.channels.ScatteringByteChannel
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
+import java.util.*
 import kotlin.experimental.and
-
 
 class PacketByteBuf : ByteBuf {
     private var buf: ByteBuf = Unpooled.buffer()
@@ -72,13 +75,32 @@ class PacketByteBuf : ByteBuf {
     }
 
     fun writeString(str: String): ByteBuf {
-        val abyte = str.toByteArray(StandardCharsets.UTF_8)
+        val bytes = str.toByteArray(StandardCharsets.UTF_8)
 
-        return if (abyte.size > 32767) {
-            throw EncoderException("String too big (was " + abyte.size + " bytes encoded, max " + 32767 + ")")
+        return if (bytes.size > 32767) {
+            throw EncoderException("String too big (was " + bytes.size + " bytes encoded, max " + 32767 + ")")
         } else {
-            writeVarInt(abyte.size)
-            writeBytes(abyte)
+            writeVarInt(bytes.size)
+            writeBytes(bytes)
+        }
+    }
+
+    fun writeUUID(uuid: UUID) {
+        writeLong(uuid.mostSignificantBits);
+        writeLong(uuid.leastSignificantBits);
+    }
+
+    fun readUUID(): UUID {
+        return UUID(readLong(), readLong())
+    }
+
+    fun writeTag(tag: Tag) {
+        NbtIo.write(tag, ByteBufOutputStream(this))
+    }
+
+    fun writeLongs(data: LongArray) {
+        for (index in data.indices) {
+            writeLong(data[index])
         }
     }
 

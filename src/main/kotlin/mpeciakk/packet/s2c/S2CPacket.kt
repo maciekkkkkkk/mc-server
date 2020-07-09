@@ -1,9 +1,8 @@
-package mpeciakk
+package mpeciakk.packet.s2c
 
-import io.netty.buffer.Unpooled
+import mpeciakk.packet.PacketByteBuf
 
 abstract class S2CPacket(private val id: Int) {
-
     protected abstract fun write(buf: PacketByteBuf)
 
     fun get(): ByteArray {
@@ -12,7 +11,7 @@ abstract class S2CPacket(private val id: Int) {
         val buf = PacketByteBuf()
         write(buf)
 
-        finalBuf.writeVarInt(buf.capacity())
+        finalBuf.writeVarInt(buf.readableBytes() + 1)
         finalBuf.writeVarInt(id)
         finalBuf.writeBytes(buf)
 
