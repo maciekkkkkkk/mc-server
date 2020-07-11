@@ -1,7 +1,7 @@
 package mpeciakk.world
 
 import mpeciakk.nbt.CompoundTag
-import mpeciakk.packet.PacketByteBuf
+import mpeciakk.network.packet.PacketByteBuf
 
 class Chunk(val x: Int, val z: Int, val full: Boolean, val ignoreOldData: Boolean) {
     val sections = mutableListOf<ChunkSection?>()

@@ -5,21 +5,23 @@ import io.netty.channel.ChannelInitializer
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder
+import io.netty.handler.codec.LengthFieldPrepender
 import io.netty.handler.codec.bytes.ByteArrayDecoder
 import io.netty.handler.codec.bytes.ByteArrayEncoder
-import mpeciakk.entity.Player
+import mpeciakk.manager.EntityManager
 import mpeciakk.manager.PlayerManager
-import mpeciakk.net.Connection
-import mpeciakk.packet.PacketRegistry
-import mpeciakk.packet.c2s.*
-import mpeciakk.packet.s2c.S2CKeepAlivePacket
-import java.util.*
+import mpeciakk.network.Connection
+import mpeciakk.network.packet.PacketRegistry
+import mpeciakk.network.packet.c2s.*
+import mpeciakk.network.packet.s2c.S2CKeepAlivePacket
 import kotlin.concurrent.fixedRateTimer
 import kotlin.concurrent.thread
 
-class MinecraftServer {
 
+class MinecraftServer {
     val playerManager = PlayerManager()
+    val entityManager = EntityManager()
 
     fun start() {
         PacketRegistry.register(C2SHandshakePacket())
@@ -33,6 +35,15 @@ class MinecraftServer {
         PacketRegistry.register(C2SPlayerMovementPacket())
         PacketRegistry.register(C2SPlayerRotationPacket())
         PacketRegistry.register(C2SEntityActionPacket())
+        PacketRegistry.register(C2SCreativeInventoryActionPacket())
+        PacketRegistry.register(C2SCloseWindowPacket())
+        PacketRegistry.register(C2SPlayerBlockPlacementPacket())
+        PacketRegistry.register(C2SAnimationPacket())
+        PacketRegistry.register(C2SPlayerAbilitiesPacket())
+        PacketRegistry.register(C2SHeldItemChangePacket())
+        PacketRegistry.register(C2SPlayerDiggingPacket())
+        PacketRegistry.register(C2SClientStatusPacket())
+        PacketRegistry.register(C2SUseItemPacket())
 
         thread(name = "NETTY THREAD") {
             val bossGroup = NioEventLoopGroup(1)

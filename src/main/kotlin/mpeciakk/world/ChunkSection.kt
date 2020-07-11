@@ -1,6 +1,6 @@
 package mpeciakk.world
 
-import mpeciakk.packet.PacketByteBuf
+import mpeciakk.network.packet.PacketByteBuf
 import java.util.*
 import java.util.function.IntFunction
 

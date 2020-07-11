@@ -1,5 +1,9 @@
-.gradle
 .idea
-build
-gradle
-**/*.py
+*.class
+build/
+.gradle
+
+*.jar
+*.aar
+*.war
+!gradle-wrapper.jar
