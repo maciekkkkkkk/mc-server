@@ -1,17 +1,16 @@
 package mpeciakk.world
 
-import java.util.Arrays.copyOf
+import java.util.*
 import java.util.function.IntFunction
 
-/** Yeah it's bad too */
 class FlexibleStorage @JvmOverloads constructor(
     private val bitsPerEntry: Int,
     data: LongArray = LongArray((4096 + 64 / bitsPerEntry - 1) / (64 / bitsPerEntry))
 ) {
-    val data: LongArray = data.copyOf(data.size)
-    val size: Int = data.size * 64 / bitsPerEntry
-    private val maxEntryValue: Long = (1L shl bitsPerEntry) - 1
-    private val valuesPerLong: Char = (64 / bitsPerEntry).toChar()
+    val data: LongArray
+    val size: Int
+    private val maxEntryValue: Long
+    private val valuesPerLong: Char
     private val magicIndex: Int
     private val divideMultiply: Long
     private val divideAdd: Long
@@ -20,8 +19,7 @@ class FlexibleStorage @JvmOverloads constructor(
         if (index < 0 || index > size - 1) {
             throw IndexOutOfBoundsException()
         }
-
-        val cellIndex = (index * divideMultiply + divideAdd shr 32 shr divideShift.toInt()).toInt()
+        val cellIndex = (index * divideMultiply + divideAdd shr 32L shr divideShift.toInt()).toInt()
         val bitIndex = (index - cellIndex * valuesPerLong.toInt()) * bitsPerEntry
         return (data[cellIndex] shr bitIndex and maxEntryValue).toInt()
     }
@@ -30,11 +28,11 @@ class FlexibleStorage @JvmOverloads constructor(
         if (index < 0 || index > size - 1) {
             throw IndexOutOfBoundsException()
         }
-
         require(!(value < 0 || value > maxEntryValue)) { "Value cannot be outside of accepted range." }
-        val cellIndex = (index * divideMultiply + divideAdd shr 32 shr divideShift.toInt()).toInt()
-
-        data[cellIndex] = 0b0001000100010001000100010001000100010001000100010001000100010001
+        val cellIndex = (index * divideMultiply + divideAdd shr 32L shr divideShift.toInt()).toInt()
+        val bitIndex = (index - cellIndex * valuesPerLong.toInt()) * bitsPerEntry
+        data[cellIndex] =
+            data[cellIndex] and (maxEntryValue shl bitIndex).inv() or (value.toLong() and maxEntryValue) shl bitIndex
     }
 
     fun transferData(newBitsPerEntry: Int, valueGetter: IntFunction<Int>): FlexibleStorage {
@@ -71,6 +69,10 @@ class FlexibleStorage @JvmOverloads constructor(
     }
 
     init {
+        this.data = Arrays.copyOf(data, data.size)
+        size = data.size * 64 / bitsPerEntry
+        maxEntryValue = (1L shl bitsPerEntry) - 1
+        valuesPerLong = (64 / bitsPerEntry).toChar()
         val expectedLength = (4096 + valuesPerLong.toInt() - 1) / valuesPerLong.toInt()
         require(data.size == expectedLength) { "Expected " + expectedLength + " longs but got " + data.size + " longs" }
         magicIndex = 3 * (valuesPerLong.toInt() - 1)
