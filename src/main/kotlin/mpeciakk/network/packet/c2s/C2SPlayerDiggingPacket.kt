@@ -1,6 +1,5 @@
 package mpeciakk.network.packet.c2s
 
-import mpeciakk.entity.ArrowEntity
 import mpeciakk.minecraftServer
 import mpeciakk.network.Connection
 import mpeciakk.network.packet.PacketByteBuf
@@ -35,15 +34,8 @@ class C2SPlayerDiggingPacket : C2SPacket(0x1B) {
         val face = buf.readByte()
 
         if (action == 0) {
+            minecraftServer.world.setBlock(position.x, position.y, position.z, 0)
             Connection.sendToAll(S2CBlockChangePacket(position, 0))
-        }
-
-        if (action == 5) {
-            val entity = ArrowEntity(connection.player.id)
-            entity.position.x = connection.player.position.x
-            entity.position.y = connection.player.position.y
-            entity.position.z = connection.player.position.z
-            minecraftServer.entityManager.spawn(entity)
         }
     }
 }

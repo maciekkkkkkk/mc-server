@@ -1,11 +1,9 @@
 package mpeciakk.network.packet.c2s
 
-import mpeciakk.math.Vector3i
+import mpeciakk.minecraftServer
 import mpeciakk.network.Connection
 import mpeciakk.network.packet.PacketByteBuf
 import mpeciakk.network.packet.s2c.S2CBlockChangePacket
-import mpeciakk.network.packet.s2c.S2CSpawnLivingEntityPacket
-import java.util.*
 
 class C2SPlayerBlockPlacementPacket : C2SPacket(0x2D) {
     override fun read(connection: Connection, buf: PacketByteBuf) {
@@ -64,6 +62,7 @@ class C2SPlayerBlockPlacementPacket : C2SPacket(0x2D) {
                 }
             }
 
+            minecraftServer.world.setBlock(location.x, location.y, location.z, it)
             Connection.sendToAll(S2CBlockChangePacket(location, it))
         }
     }

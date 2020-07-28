@@ -1,14 +1,13 @@
 package mpeciakk.manager
 
 import mpeciakk.entity.Player
-import mpeciakk.math.Vector3d
+import mpeciakk.minecraftServer
 import mpeciakk.network.Connection
 import mpeciakk.network.SocketState
 import mpeciakk.network.packet.s2c.*
 import mpeciakk.text.TextComponent
-import mpeciakk.world.Chunk
-import mpeciakk.world.ChunkSection
 import java.util.*
+import kotlin.concurrent.fixedRateTimer
 
 class PlayerManager {
     val players = mutableMapOf<UUID, Player>()
@@ -17,49 +16,17 @@ class PlayerManager {
         val player = Player(nick, connection)
         players[player.uuid] = player
         player.position.x = 1.0
-        player.position.y = 20.0
+        player.position.y = 70.0
         player.position.z = 1.0
 
         connection.send(S2CLoginSuccess(player.uuid, nick))
         connection.send(S2CJoinGamePacket(player.id))
-//                connection.write(S2CHeldItemChangePacket())
-//                connection.write(S2CEntityStatusPacket())
-        connection.send(S2CPlayerPositionAndLookPacket())
 
-        for (x in -2..8) {
-            for (z in -2..8) {
-                val chunk = Chunk(x, z, full = true, ignoreOldData = false)
-
-                val section = ChunkSection()
-
-                for (x2 in 0 until 16) {
-                    for (y2 in 0 until 16) {
-                        for (z2 in 0 until 16) {
-                            section[x2, y2, z2] = 1
-                        }
-                    }
-                }
-
-                chunk.sections.add(section)
-                chunk.sections.add(null)
-                chunk.sections.add(null)
-                chunk.sections.add(null)
-                chunk.sections.add(null)
-                chunk.sections.add(null)
-                chunk.sections.add(null)
-                chunk.sections.add(null)
-                chunk.sections.add(null)
-                chunk.sections.add(null)
-                chunk.sections.add(null)
-                chunk.sections.add(null)
-                chunk.sections.add(null)
-                chunk.sections.add(null)
-                chunk.sections.add(null)
-                chunk.sections.add(null)
-                chunk.sections.add(null)
-                connection.send(S2CChunkDataPacket(chunk))
-            }
+        for (chunk in minecraftServer.world.chunks) {
+            connection.send(S2CChunkDataPacket(chunk))
         }
+
+        connection.send(S2CPlayerPositionAndLookPacket(player.position, player.yaw, player.pitch, 1))
 
         connection.state = SocketState.PLAY
         connection.player = player
@@ -88,6 +55,18 @@ class PlayerManager {
 
         players.forEach { (_, player) ->
             player.sendMessage(component)
+        }
+    }
+
+    private fun tick() {
+        for (entry in players) {
+            entry.value.tick()
+        }
+    }
+
+    init {
+        fixedRateTimer("PLAYER MANAGER TICK", period = 1000 / 20) {
+            tick()
         }
     }
 }

@@ -9,6 +9,10 @@ repositories {
     mavenCentral()
 
     maven { url 'https://jitpack.io/' }
+
+    maven {
+        url 'https://repo.spongepowered.org/maven/'
+    }
 }
 
 test {
@@ -42,6 +46,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
     compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
     compile group: 'io.netty', name: 'netty-all', version: '4.1.50.Final'
+    implementation 'org.spongepowered:noise:2.0.0-SNAPSHOT'
 }
 
 compileKotlin {

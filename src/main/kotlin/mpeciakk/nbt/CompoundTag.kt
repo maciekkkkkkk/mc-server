@@ -2,7 +2,7 @@ package mpeciakk.nbt
 
 import java.io.DataOutput
 
-class CompoundTag() : Tag {
+class CompoundTag : Tag {
 
     private val tags: MutableMap<String, Tag> = HashMap()
 

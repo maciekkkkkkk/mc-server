@@ -87,8 +87,8 @@ class PacketByteBuf : ByteBuf {
     }
 
     fun writeUUID(uuid: UUID) {
-        writeLong(uuid.mostSignificantBits);
-        writeLong(uuid.leastSignificantBits);
+        writeLong(uuid.mostSignificantBits)
+        writeLong(uuid.leastSignificantBits)
     }
 
     fun readUUID(): UUID {
@@ -139,6 +139,14 @@ class PacketByteBuf : ByteBuf {
         }
 
         return ItemData(preset, null, null)
+    }
+
+    fun readAngle(): Float {
+        return (buf.readByte() * 256 / 360).toFloat()
+    }
+
+    fun writeAngle(angle: Float) {
+        buf.writeByte((angle * 256 / 360).toInt())
     }
 
     override fun readerIndex(): Int {

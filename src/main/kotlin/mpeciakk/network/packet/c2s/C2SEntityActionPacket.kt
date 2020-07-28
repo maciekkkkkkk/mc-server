@@ -25,7 +25,5 @@ class C2SEntityActionPacket : C2SPacket(0x1C) {
 
         // Jump boost, when action = 5 then 0-100 otherwise 0
         val boost = buf.readVarInt()
-
-        println(action)
     }
 }

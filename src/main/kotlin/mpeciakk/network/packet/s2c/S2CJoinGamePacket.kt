@@ -40,7 +40,7 @@ class S2CJoinGamePacket(private val id: Int) : S2CPacket(0x25) {
         buf.writeString("minecraft:overworld")
         buf.writeLong(0)
         buf.writeByte(11)
-        buf.writeVarInt(5)
+        buf.writeVarInt(12)
         buf.writeBoolean(false)
         buf.writeBoolean(true)
         buf.writeBoolean(false)

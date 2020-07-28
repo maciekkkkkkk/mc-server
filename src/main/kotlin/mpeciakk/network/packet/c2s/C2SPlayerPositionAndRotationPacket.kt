@@ -32,7 +32,5 @@ class C2SPlayerPositionAndRotationPacket : C2SPacket(0x13) {
         connection.player.yaw = yaw
         connection.player.pitch = pitch
         connection.player.onGround = onGround
-
-        connection.player.update()
     }
 }

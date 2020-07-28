@@ -9,7 +9,7 @@ class StringTag(private val value: String) : Tag {
     }
 
     override fun getType(): Byte {
-        return 8;
+        return 8
     }
 
     fun getValue(): String {

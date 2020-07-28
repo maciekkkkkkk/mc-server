@@ -1,7 +1,6 @@
 package mpeciakk.nbt
 
 import java.io.DataOutput
-import java.io.IOException
 
 object NbtIo {
 

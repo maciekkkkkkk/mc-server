@@ -5,8 +5,6 @@ import io.netty.channel.ChannelInitializer
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder
-import io.netty.handler.codec.LengthFieldPrepender
 import io.netty.handler.codec.bytes.ByteArrayDecoder
 import io.netty.handler.codec.bytes.ByteArrayEncoder
 import mpeciakk.manager.EntityManager
@@ -15,6 +13,7 @@ import mpeciakk.network.Connection
 import mpeciakk.network.packet.PacketRegistry
 import mpeciakk.network.packet.c2s.*
 import mpeciakk.network.packet.s2c.S2CKeepAlivePacket
+import mpeciakk.world.World
 import kotlin.concurrent.fixedRateTimer
 import kotlin.concurrent.thread
 
@@ -22,6 +21,7 @@ import kotlin.concurrent.thread
 class MinecraftServer {
     val playerManager = PlayerManager()
     val entityManager = EntityManager()
+    val world = World()
 
     fun start() {
         PacketRegistry.register(C2SHandshakePacket())

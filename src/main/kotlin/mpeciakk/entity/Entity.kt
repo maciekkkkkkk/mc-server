@@ -16,4 +16,6 @@ abstract class Entity {
     val uuid = UUID.randomUUID()!!
 
     abstract fun getSpawnPacket(): S2CPacket
+
+    open fun tick() {}
 }

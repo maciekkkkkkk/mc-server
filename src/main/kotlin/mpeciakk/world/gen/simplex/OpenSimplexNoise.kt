@@ -1,4 +1,8 @@
-package mpeciakk.world
+package mpeciakk.world.gen.simplex
+
+import kotlin.experimental.and
+import kotlin.experimental.or
+import kotlin.experimental.xor
 
 class OpenSimplexNoise {
     private var perm: ShortArray
@@ -242,7 +246,7 @@ class OpenSimplexNoise {
             if (wins > aScore || wins > bScore) { // (0,0,0) is one of the closest two tetrahedral vertices.
                 val c =
                     if (bScore > aScore) bPoint else aPoint // Our other closest vertex is the closest out of a and b.
-                if (c and 0x01 == 0) {
+                if (c and 0x01 == 0.toByte()) {
                     xsv_ext0 = xsb - 1
                     xsv_ext1 = xsb
                     dx_ext0 = dx0 + 1
@@ -253,12 +257,12 @@ class OpenSimplexNoise {
                     dx_ext1 = dx0 - 1
                     dx_ext0 = dx_ext1
                 }
-                if (c and 0x02 == 0) {
+                if (c and 0x02 == 0.toByte()) {
                     ysv_ext1 = ysb
                     ysv_ext0 = ysv_ext1
                     dy_ext1 = dy0
                     dy_ext0 = dy_ext1
-                    if (c and 0x01 == 0) {
+                    if (c and 0x01 == 0.toByte()) {
                         ysv_ext1 -= 1
                         dy_ext1 += 1.0
                     } else {
@@ -271,7 +275,7 @@ class OpenSimplexNoise {
                     dy_ext1 = dy0 - 1
                     dy_ext0 = dy_ext1
                 }
-                if (c and 0x04 == 0) {
+                if (c and 0x04 == 0.toByte()) {
                     zsv_ext0 = zsb
                     zsv_ext1 = zsb - 1
                     dz_ext0 = dz0
@@ -284,8 +288,8 @@ class OpenSimplexNoise {
                 }
             } else { // (0,0,0) is not one of the closest two tetrahedral vertices.
                 val c =
-                    (aPoint or bPoint) as Byte // Our two extra vertices are determined by the closest two.
-                if (c and 0x01 == 0) {
+                    (aPoint or bPoint) // Our two extra vertices are determined by the closest two.
+                if (c and 0x01 == 0.toByte()) {
                     xsv_ext0 = xsb
                     xsv_ext1 = xsb - 1
                     dx_ext0 = dx0 - 2 * SQUISH_CONSTANT_3D
@@ -296,7 +300,7 @@ class OpenSimplexNoise {
                     dx_ext0 = dx0 - 1 - 2 * SQUISH_CONSTANT_3D
                     dx_ext1 = dx0 - 1 - SQUISH_CONSTANT_3D
                 }
-                if (c and 0x02 == 0) {
+                if (c and 0x02 == 0.toByte()) {
                     ysv_ext0 = ysb
                     ysv_ext1 = ysb - 1
                     dy_ext0 = dy0 - 2 * SQUISH_CONSTANT_3D
@@ -307,7 +311,7 @@ class OpenSimplexNoise {
                     dy_ext0 = dy0 - 1 - 2 * SQUISH_CONSTANT_3D
                     dy_ext1 = dy0 - 1 - SQUISH_CONSTANT_3D
                 }
-                if (c and 0x04 == 0) {
+                if (c and 0x04 == 0.toByte()) {
                     zsv_ext0 = zsb
                     zsv_ext1 = zsb - 1
                     dz_ext0 = dz0 - 2 * SQUISH_CONSTANT_3D
@@ -374,7 +378,7 @@ class OpenSimplexNoise {
             if (wins < aScore || wins < bScore) { // (1,1,1) is one of the closest two tetrahedral vertices.
                 val c =
                     if (bScore < aScore) bPoint else aPoint // Our other closest vertex is the closest out of a and b.
-                if (c and 0x01 != 0) {
+                if (c and 0x01 != 0.toByte()) {
                     xsv_ext0 = xsb + 2
                     xsv_ext1 = xsb + 1
                     dx_ext0 = dx0 - 2 - 3 * SQUISH_CONSTANT_3D
@@ -385,12 +389,12 @@ class OpenSimplexNoise {
                     dx_ext1 = dx0 - 3 * SQUISH_CONSTANT_3D
                     dx_ext0 = dx_ext1
                 }
-                if (c and 0x02 != 0) {
+                if (c and 0x02 != 0.toByte()) {
                     ysv_ext1 = ysb + 1
                     ysv_ext0 = ysv_ext1
                     dy_ext1 = dy0 - 1 - 3 * SQUISH_CONSTANT_3D
                     dy_ext0 = dy_ext1
-                    if (c and 0x01 != 0) {
+                    if (c and 0x01 != 0.toByte()) {
                         ysv_ext1 += 1
                         dy_ext1 -= 1.0
                     } else {
@@ -403,7 +407,7 @@ class OpenSimplexNoise {
                     dy_ext1 = dy0 - 3 * SQUISH_CONSTANT_3D
                     dy_ext0 = dy_ext1
                 }
-                if (c and 0x04 != 0) {
+                if (c and 0x04 != 0.toByte()) {
                     zsv_ext0 = zsb + 1
                     zsv_ext1 = zsb + 2
                     dz_ext0 = dz0 - 1 - 3 * SQUISH_CONSTANT_3D
@@ -416,8 +420,8 @@ class OpenSimplexNoise {
                 }
             } else { // (1,1,1) is not one of the closest two tetrahedral vertices.
                 val c =
-                    (aPoint and bPoint) as Byte // Our two extra vertices are determined by the closest two.
-                if (c and 0x01 != 0) {
+                    (aPoint and bPoint) // Our two extra vertices are determined by the closest two.
+                if (c and 0x01 != 0.toByte()) {
                     xsv_ext0 = xsb + 1
                     xsv_ext1 = xsb + 2
                     dx_ext0 = dx0 - 1 - SQUISH_CONSTANT_3D
@@ -428,7 +432,7 @@ class OpenSimplexNoise {
                     dx_ext0 = dx0 - SQUISH_CONSTANT_3D
                     dx_ext1 = dx0 - 2 * SQUISH_CONSTANT_3D
                 }
-                if (c and 0x02 != 0) {
+                if (c and 0x02 != 0.toByte()) {
                     ysv_ext0 = ysb + 1
                     ysv_ext1 = ysb + 2
                     dy_ext0 = dy0 - 1 - SQUISH_CONSTANT_3D
@@ -439,7 +443,7 @@ class OpenSimplexNoise {
                     dy_ext0 = dy0 - SQUISH_CONSTANT_3D
                     dy_ext1 = dy0 - 2 * SQUISH_CONSTANT_3D
                 }
-                if (c and 0x04 != 0) {
+                if (c and 0x04 != 0.toByte()) {
                     zsv_ext0 = zsb + 1
                     zsv_ext1 = zsb + 2
                     dz_ext0 = dz0 - 1 - SQUISH_CONSTANT_3D
@@ -559,15 +563,15 @@ class OpenSimplexNoise {
                     zsv_ext0 = zsb + 1
 
                     // Other extra point is based on the shared axis.
-                    val c = (aPoint and bPoint) as Byte
-                    if (c and 0x01 != 0) {
+                    val c = (aPoint and bPoint)
+                    if (c and 0x01 != 0.toByte()) {
                         dx_ext1 = dx0 - 2 - 2 * SQUISH_CONSTANT_3D
                         dy_ext1 = dy0 - 2 * SQUISH_CONSTANT_3D
                         dz_ext1 = dz0 - 2 * SQUISH_CONSTANT_3D
                         xsv_ext1 = xsb + 2
                         ysv_ext1 = ysb
                         zsv_ext1 = zsb
-                    } else if (c and 0x02 != 0) {
+                    } else if (c and 0x02 != 0.toByte()) {
                         dx_ext1 = dx0 - 2 * SQUISH_CONSTANT_3D
                         dy_ext1 = dy0 - 2 - 2 * SQUISH_CONSTANT_3D
                         dz_ext1 = dz0 - 2 * SQUISH_CONSTANT_3D
@@ -593,15 +597,15 @@ class OpenSimplexNoise {
                     zsv_ext0 = zsb
 
                     // Other extra point is based on the omitted axis.
-                    val c = (aPoint or bPoint) as Byte
-                    if (c and 0x01 == 0) {
+                    val c = (aPoint or bPoint)
+                    if (c and 0x01 == 0.toByte()) {
                         dx_ext1 = dx0 + 1 - SQUISH_CONSTANT_3D
                         dy_ext1 = dy0 - 1 - SQUISH_CONSTANT_3D
                         dz_ext1 = dz0 - 1 - SQUISH_CONSTANT_3D
                         xsv_ext1 = xsb - 1
                         ysv_ext1 = ysb + 1
                         zsv_ext1 = zsb + 1
-                    } else if (c and 0x02 == 0) {
+                    } else if (c and 0x02 == 0.toByte()) {
                         dx_ext1 = dx0 - 1 - SQUISH_CONSTANT_3D
                         dy_ext1 = dy0 + 1 - SQUISH_CONSTANT_3D
                         dz_ext1 = dz0 - 1 - SQUISH_CONSTANT_3D
@@ -629,14 +633,14 @@ class OpenSimplexNoise {
                 }
 
                 // One contribution is a permutation of (1,1,-1)
-                if (c1 and 0x01 == 0) {
+                if (c1 and 0x01 == 0.toByte()) {
                     dx_ext0 = dx0 + 1 - SQUISH_CONSTANT_3D
                     dy_ext0 = dy0 - 1 - SQUISH_CONSTANT_3D
                     dz_ext0 = dz0 - 1 - SQUISH_CONSTANT_3D
                     xsv_ext0 = xsb - 1
                     ysv_ext0 = ysb + 1
                     zsv_ext0 = zsb + 1
-                } else if (c1 and 0x02 == 0) {
+                } else if (c1 and 0x02 == 0.toByte()) {
                     dx_ext0 = dx0 - 1 - SQUISH_CONSTANT_3D
                     dy_ext0 = dy0 + 1 - SQUISH_CONSTANT_3D
                     dz_ext0 = dz0 - 1 - SQUISH_CONSTANT_3D
@@ -659,10 +663,10 @@ class OpenSimplexNoise {
                 xsv_ext1 = xsb
                 ysv_ext1 = ysb
                 zsv_ext1 = zsb
-                if (c2 and 0x01 != 0) {
+                if (c2 and 0x01 != 0.toByte()) {
                     dx_ext1 -= 2.0
                     xsv_ext1 += 2
-                } else if (c2 and 0x02 != 0) {
+                } else if (c2 and 0x02 != 0.toByte()) {
                     dy_ext1 -= 2.0
                     ysv_ext1 += 2
                 } else {
@@ -863,7 +867,7 @@ class OpenSimplexNoise {
             if (uins > aScore || uins > bScore) { // (0,0,0,0) is one of the closest two pentachoron vertices.
                 val c =
                     if (bScore > aScore) bPoint else aPoint // Our other closest vertex is the closest out of a and b.
-                if (c and 0x01 == 0) {
+                if (c and 0x01 == 0.toByte()) {
                     xsv_ext0 = xsb - 1
                     xsv_ext2 = xsb
                     xsv_ext1 = xsv_ext2
@@ -878,14 +882,14 @@ class OpenSimplexNoise {
                     dx_ext1 = dx_ext2
                     dx_ext0 = dx_ext1
                 }
-                if (c and 0x02 == 0) {
+                if (c and 0x02 == 0.toByte()) {
                     ysv_ext2 = ysb
                     ysv_ext1 = ysv_ext2
                     ysv_ext0 = ysv_ext1
                     dy_ext2 = dy0
                     dy_ext1 = dy_ext2
                     dy_ext0 = dy_ext1
-                    if (c and 0x01 == 0x01) {
+                    if (c and 0x01 == 0x01.toByte()) {
                         ysv_ext0 -= 1
                         dy_ext0 += 1.0
                     } else {
@@ -900,15 +904,15 @@ class OpenSimplexNoise {
                     dy_ext1 = dy_ext2
                     dy_ext0 = dy_ext1
                 }
-                if (c and 0x04 == 0) {
+                if (c and 0x04 == 0.toByte()) {
                     zsv_ext2 = zsb
                     zsv_ext1 = zsv_ext2
                     zsv_ext0 = zsv_ext1
                     dz_ext2 = dz0
                     dz_ext1 = dz_ext2
                     dz_ext0 = dz_ext1
-                    if (c and 0x03 != 0) {
-                        if (c and 0x03 == 0x03) {
+                    if (c and 0x03 != 0.toByte()) {
+                        if (c and 0x03 == 0x03.toByte()) {
                             zsv_ext0 -= 1
                             dz_ext0 += 1.0
                         } else {
@@ -927,7 +931,7 @@ class OpenSimplexNoise {
                     dz_ext1 = dz_ext2
                     dz_ext0 = dz_ext1
                 }
-                if (c and 0x08 == 0) {
+                if (c and 0x08 == 0.toByte()) {
                     wsv_ext1 = wsb
                     wsv_ext0 = wsv_ext1
                     wsv_ext2 = wsb - 1
@@ -944,8 +948,8 @@ class OpenSimplexNoise {
                 }
             } else { // (0,0,0,0) is not one of the closest two pentachoron vertices.
                 val c =
-                    (aPoint or bPoint) as Byte // Our three extra vertices are determined by the closest two.
-                if (c and 0x01 == 0) {
+                    (aPoint or bPoint) // Our three extra vertices are determined by the closest two.
+                if (c and 0x01 == 0.toByte()) {
                     xsv_ext2 = xsb
                     xsv_ext0 = xsv_ext2
                     xsv_ext1 = xsb - 1
@@ -960,14 +964,14 @@ class OpenSimplexNoise {
                     dx_ext2 = dx0 - 1 - SQUISH_CONSTANT_4D
                     dx_ext1 = dx_ext2
                 }
-                if (c and 0x02 == 0) {
+                if (c and 0x02 == 0.toByte()) {
                     ysv_ext2 = ysb
                     ysv_ext1 = ysv_ext2
                     ysv_ext0 = ysv_ext1
                     dy_ext0 = dy0 - 2 * SQUISH_CONSTANT_4D
                     dy_ext2 = dy0 - SQUISH_CONSTANT_4D
                     dy_ext1 = dy_ext2
-                    if (c and 0x01 == 0x01) {
+                    if (c and 0x01 == 0x01.toByte()) {
                         ysv_ext1 -= 1
                         dy_ext1 += 1.0
                     } else {
@@ -982,14 +986,14 @@ class OpenSimplexNoise {
                     dy_ext2 = dy0 - 1 - SQUISH_CONSTANT_4D
                     dy_ext1 = dy_ext2
                 }
-                if (c and 0x04 == 0) {
+                if (c and 0x04 == 0.toByte()) {
                     zsv_ext2 = zsb
                     zsv_ext1 = zsv_ext2
                     zsv_ext0 = zsv_ext1
                     dz_ext0 = dz0 - 2 * SQUISH_CONSTANT_4D
                     dz_ext2 = dz0 - SQUISH_CONSTANT_4D
                     dz_ext1 = dz_ext2
-                    if (c and 0x03 == 0x03) {
+                    if (c and 0x03 == 0x03.toByte()) {
                         zsv_ext1 -= 1
                         dz_ext1 += 1.0
                     } else {
@@ -1004,7 +1008,7 @@ class OpenSimplexNoise {
                     dz_ext2 = dz0 - 1 - SQUISH_CONSTANT_4D
                     dz_ext1 = dz_ext2
                 }
-                if (c and 0x08 == 0) {
+                if (c and 0x08 == 0.toByte()) {
                     wsv_ext1 = wsb
                     wsv_ext0 = wsv_ext1
                     wsv_ext2 = wsb - 1
@@ -1090,7 +1094,7 @@ class OpenSimplexNoise {
             if (uins < aScore || uins < bScore) { // (1,1,1,1) is one of the closest two pentachoron vertices.
                 val c =
                     if (bScore < aScore) bPoint else aPoint // Our other closest vertex is the closest out of a and b.
-                if (c and 0x01 != 0) {
+                if (c and 0x01 != 0.toByte()) {
                     xsv_ext0 = xsb + 2
                     xsv_ext2 = xsb + 1
                     xsv_ext1 = xsv_ext2
@@ -1105,14 +1109,14 @@ class OpenSimplexNoise {
                     dx_ext1 = dx_ext2
                     dx_ext0 = dx_ext1
                 }
-                if (c and 0x02 != 0) {
+                if (c and 0x02 != 0.toByte()) {
                     ysv_ext2 = ysb + 1
                     ysv_ext1 = ysv_ext2
                     ysv_ext0 = ysv_ext1
                     dy_ext2 = dy0 - 1 - 4 * SQUISH_CONSTANT_4D
                     dy_ext1 = dy_ext2
                     dy_ext0 = dy_ext1
-                    if (c and 0x01 != 0) {
+                    if (c and 0x01 != 0.toByte()) {
                         ysv_ext1 += 1
                         dy_ext1 -= 1.0
                     } else {
@@ -1127,15 +1131,15 @@ class OpenSimplexNoise {
                     dy_ext1 = dy_ext2
                     dy_ext0 = dy_ext1
                 }
-                if (c and 0x04 != 0) {
+                if (c and 0x04 != 0.toByte()) {
                     zsv_ext2 = zsb + 1
                     zsv_ext1 = zsv_ext2
                     zsv_ext0 = zsv_ext1
                     dz_ext2 = dz0 - 1 - 4 * SQUISH_CONSTANT_4D
                     dz_ext1 = dz_ext2
                     dz_ext0 = dz_ext1
-                    if (c and 0x03 != 0x03) {
-                        if (c and 0x03 == 0) {
+                    if (c and 0x03 != 0x03.toByte()) {
+                        if (c and 0x03 == 0.toByte()) {
                             zsv_ext0 += 1
                             dz_ext0 -= 1.0
                         } else {
@@ -1154,7 +1158,7 @@ class OpenSimplexNoise {
                     dz_ext1 = dz_ext2
                     dz_ext0 = dz_ext1
                 }
-                if (c and 0x08 != 0) {
+                if (c and 0x08 != 0.toByte()) {
                     wsv_ext1 = wsb + 1
                     wsv_ext0 = wsv_ext1
                     wsv_ext2 = wsb + 2
@@ -1171,8 +1175,8 @@ class OpenSimplexNoise {
                 }
             } else { // (1,1,1,1) is not one of the closest two pentachoron vertices.
                 val c =
-                    (aPoint and bPoint) as Byte // Our three extra vertices are determined by the closest two.
-                if (c and 0x01 != 0) {
+                    (aPoint and bPoint) // Our three extra vertices are determined by the closest two.
+                if (c and 0x01 != 0.toByte()) {
                     xsv_ext2 = xsb + 1
                     xsv_ext0 = xsv_ext2
                     xsv_ext1 = xsb + 2
@@ -1187,14 +1191,14 @@ class OpenSimplexNoise {
                     dx_ext2 = dx0 - 3 * SQUISH_CONSTANT_4D
                     dx_ext1 = dx_ext2
                 }
-                if (c and 0x02 != 0) {
+                if (c and 0x02 != 0.toByte()) {
                     ysv_ext2 = ysb + 1
                     ysv_ext1 = ysv_ext2
                     ysv_ext0 = ysv_ext1
                     dy_ext0 = dy0 - 1 - 2 * SQUISH_CONSTANT_4D
                     dy_ext2 = dy0 - 1 - 3 * SQUISH_CONSTANT_4D
                     dy_ext1 = dy_ext2
-                    if (c and 0x01 != 0) {
+                    if (c and 0x01 != 0.toByte()) {
                         ysv_ext2 += 1
                         dy_ext2 -= 1.0
                     } else {
@@ -1209,14 +1213,14 @@ class OpenSimplexNoise {
                     dy_ext2 = dy0 - 3 * SQUISH_CONSTANT_4D
                     dy_ext1 = dy_ext2
                 }
-                if (c and 0x04 != 0) {
+                if (c and 0x04 != 0.toByte()) {
                     zsv_ext2 = zsb + 1
                     zsv_ext1 = zsv_ext2
                     zsv_ext0 = zsv_ext1
                     dz_ext0 = dz0 - 1 - 2 * SQUISH_CONSTANT_4D
                     dz_ext2 = dz0 - 1 - 3 * SQUISH_CONSTANT_4D
                     dz_ext1 = dz_ext2
-                    if (c and 0x03 != 0) {
+                    if (c and 0x03 != 0.toByte()) {
                         zsv_ext2 += 1
                         dz_ext2 -= 1.0
                     } else {
@@ -1231,7 +1235,7 @@ class OpenSimplexNoise {
                     dz_ext2 = dz0 - 3 * SQUISH_CONSTANT_4D
                     dz_ext1 = dz_ext2
                 }
-                if (c and 0x08 != 0) {
+                if (c and 0x08 != 0.toByte()) {
                     wsv_ext1 = wsb + 1
                     wsv_ext0 = wsv_ext1
                     wsv_ext2 = wsb + 2
@@ -1392,9 +1396,9 @@ class OpenSimplexNoise {
             // Where each of the two closest points are determines how the extra three vertices are calculated.
             if (aIsBiggerSide == bIsBiggerSide) {
                 if (aIsBiggerSide) { // Both closest points on the bigger side
-                    val c1 = (aPoint or bPoint) as Byte
-                    val c2 = (aPoint and bPoint) as Byte
-                    if (c1 and 0x01 == 0) {
+                    val c1 = (aPoint or bPoint)
+                    val c2 = (aPoint and bPoint)
+                    if (c1 and 0x01 == 0.toByte()) {
                         xsv_ext0 = xsb
                         xsv_ext1 = xsb - 1
                         dx_ext0 = dx0 - 3 * SQUISH_CONSTANT_4D
@@ -1405,7 +1409,7 @@ class OpenSimplexNoise {
                         dx_ext0 = dx0 - 1 - 3 * SQUISH_CONSTANT_4D
                         dx_ext1 = dx0 - 1 - 2 * SQUISH_CONSTANT_4D
                     }
-                    if (c1 and 0x02 == 0) {
+                    if (c1 and 0x02 == 0.toByte()) {
                         ysv_ext0 = ysb
                         ysv_ext1 = ysb - 1
                         dy_ext0 = dy0 - 3 * SQUISH_CONSTANT_4D
@@ -1416,7 +1420,7 @@ class OpenSimplexNoise {
                         dy_ext0 = dy0 - 1 - 3 * SQUISH_CONSTANT_4D
                         dy_ext1 = dy0 - 1 - 2 * SQUISH_CONSTANT_4D
                     }
-                    if (c1 and 0x04 == 0) {
+                    if (c1 and 0x04 == 0.toByte()) {
                         zsv_ext0 = zsb
                         zsv_ext1 = zsb - 1
                         dz_ext0 = dz0 - 3 * SQUISH_CONSTANT_4D
@@ -1427,7 +1431,7 @@ class OpenSimplexNoise {
                         dz_ext0 = dz0 - 1 - 3 * SQUISH_CONSTANT_4D
                         dz_ext1 = dz0 - 1 - 2 * SQUISH_CONSTANT_4D
                     }
-                    if (c1 and 0x08 == 0) {
+                    if (c1 and 0x08 == 0.toByte()) {
                         wsv_ext0 = wsb
                         wsv_ext1 = wsb - 1
                         dw_ext0 = dw0 - 3 * SQUISH_CONSTANT_4D
@@ -1448,13 +1452,13 @@ class OpenSimplexNoise {
                     dy_ext2 = dy0 - 2 * SQUISH_CONSTANT_4D
                     dz_ext2 = dz0 - 2 * SQUISH_CONSTANT_4D
                     dw_ext2 = dw0 - 2 * SQUISH_CONSTANT_4D
-                    if (c2 and 0x01 != 0) {
+                    if (c2 and 0x01 != 0.toByte()) {
                         xsv_ext2 += 2
                         dx_ext2 -= 2.0
-                    } else if (c2 and 0x02 != 0) {
+                    } else if (c2 and 0x02 != 0.toByte()) {
                         ysv_ext2 += 2
                         dy_ext2 -= 2.0
-                    } else if (c2 and 0x04 != 0) {
+                    } else if (c2 and 0x04 != 0.toByte()) {
                         zsv_ext2 += 2
                         dz_ext2 -= 2.0
                     } else {
@@ -1473,8 +1477,8 @@ class OpenSimplexNoise {
                     dw_ext2 = dw0
 
                     // Other two points are based on the omitted axes.
-                    val c = (aPoint or bPoint) as Byte
-                    if (c and 0x01 == 0) {
+                    val c = (aPoint or bPoint)
+                    if (c and 0x01 == 0.toByte()) {
                         xsv_ext0 = xsb - 1
                         xsv_ext1 = xsb
                         dx_ext0 = dx0 + 1 - SQUISH_CONSTANT_4D
@@ -1485,12 +1489,12 @@ class OpenSimplexNoise {
                         dx_ext1 = dx0 - 1 - SQUISH_CONSTANT_4D
                         dx_ext0 = dx_ext1
                     }
-                    if (c and 0x02 == 0) {
+                    if (c and 0x02 == 0.toByte()) {
                         ysv_ext1 = ysb
                         ysv_ext0 = ysv_ext1
                         dy_ext1 = dy0 - SQUISH_CONSTANT_4D
                         dy_ext0 = dy_ext1
-                        if (c and 0x01 == 0x01) {
+                        if (c and 0x01 == 0x01.toByte()) {
                             ysv_ext0 -= 1
                             dy_ext0 += 1.0
                         } else {
@@ -1503,12 +1507,12 @@ class OpenSimplexNoise {
                         dy_ext1 = dy0 - 1 - SQUISH_CONSTANT_4D
                         dy_ext0 = dy_ext1
                     }
-                    if (c and 0x04 == 0) {
+                    if (c and 0x04 == 0.toByte()) {
                         zsv_ext1 = zsb
                         zsv_ext0 = zsv_ext1
                         dz_ext1 = dz0 - SQUISH_CONSTANT_4D
                         dz_ext0 = dz_ext1
-                        if (c and 0x03 == 0x03) {
+                        if (c and 0x03 == 0x03.toByte()) {
                             zsv_ext0 -= 1
                             dz_ext0 += 1.0
                         } else {
@@ -1521,7 +1525,7 @@ class OpenSimplexNoise {
                         dz_ext1 = dz0 - 1 - SQUISH_CONSTANT_4D
                         dz_ext0 = dz_ext1
                     }
-                    if (c and 0x08 == 0) {
+                    if (c and 0x08 == 0.toByte()) {
                         wsv_ext0 = wsb
                         wsv_ext1 = wsb - 1
                         dw_ext0 = dw0 - SQUISH_CONSTANT_4D
@@ -1545,7 +1549,7 @@ class OpenSimplexNoise {
                 }
 
                 // Two contributions are the bigger-sided point with each 0 replaced with -1.
-                if (c1 and 0x01 == 0) {
+                if (c1 and 0x01 == 0.toByte()) {
                     xsv_ext0 = xsb - 1
                     xsv_ext1 = xsb
                     dx_ext0 = dx0 + 1 - SQUISH_CONSTANT_4D
@@ -1556,12 +1560,12 @@ class OpenSimplexNoise {
                     dx_ext1 = dx0 - 1 - SQUISH_CONSTANT_4D
                     dx_ext0 = dx_ext1
                 }
-                if (c1 and 0x02 == 0) {
+                if (c1 and 0x02 == 0.toByte()) {
                     ysv_ext1 = ysb
                     ysv_ext0 = ysv_ext1
                     dy_ext1 = dy0 - SQUISH_CONSTANT_4D
                     dy_ext0 = dy_ext1
-                    if (c1 and 0x01 == 0x01) {
+                    if (c1 and 0x01 == 0x01.toByte()) {
                         ysv_ext0 -= 1
                         dy_ext0 += 1.0
                     } else {
@@ -1574,12 +1578,12 @@ class OpenSimplexNoise {
                     dy_ext1 = dy0 - 1 - SQUISH_CONSTANT_4D
                     dy_ext0 = dy_ext1
                 }
-                if (c1 and 0x04 == 0) {
+                if (c1 and 0x04 == 0.toByte()) {
                     zsv_ext1 = zsb
                     zsv_ext0 = zsv_ext1
                     dz_ext1 = dz0 - SQUISH_CONSTANT_4D
                     dz_ext0 = dz_ext1
-                    if (c1 and 0x03 == 0x03) {
+                    if (c1 and 0x03 == 0x03.toByte()) {
                         zsv_ext0 -= 1
                         dz_ext0 += 1.0
                     } else {
@@ -1592,7 +1596,7 @@ class OpenSimplexNoise {
                     dz_ext1 = dz0 - 1 - SQUISH_CONSTANT_4D
                     dz_ext0 = dz_ext1
                 }
-                if (c1 and 0x08 == 0) {
+                if (c1 and 0x08 == 0.toByte()) {
                     wsv_ext0 = wsb
                     wsv_ext1 = wsb - 1
                     dw_ext0 = dw0 - SQUISH_CONSTANT_4D
@@ -1613,13 +1617,13 @@ class OpenSimplexNoise {
                 dy_ext2 = dy0 - 2 * SQUISH_CONSTANT_4D
                 dz_ext2 = dz0 - 2 * SQUISH_CONSTANT_4D
                 dw_ext2 = dw0 - 2 * SQUISH_CONSTANT_4D
-                if (c2 and 0x01 != 0) {
+                if (c2 and 0x01 != 0.toByte()) {
                     xsv_ext2 += 2
                     dx_ext2 -= 2.0
-                } else if (c2 and 0x02 != 0) {
+                } else if (c2 and 0x02 != 0.toByte()) {
                     ysv_ext2 += 2
                     dy_ext2 -= 2.0
-                } else if (c2 and 0x04 != 0) {
+                } else if (c2 and 0x04 != 0.toByte()) {
                     zsv_ext2 += 2
                     dz_ext2 -= 2.0
                 } else {
@@ -1827,8 +1831,8 @@ class OpenSimplexNoise {
             // Where each of the two closest points are determines how the extra three vertices are calculated.
             if (aIsBiggerSide == bIsBiggerSide) {
                 if (aIsBiggerSide) { // Both closest points on the bigger side
-                    val c1 = (aPoint and bPoint) as Byte
-                    val c2 = (aPoint or bPoint) as Byte
+                    val c1 = (aPoint and bPoint)
+                    val c2 = (aPoint or bPoint)
 
                     // Two contributions are permutations of (0,0,0,1) and (0,0,0,2) based on c1
                     xsv_ext1 = xsb
@@ -1847,17 +1851,17 @@ class OpenSimplexNoise {
                     dy_ext1 = dy0 - 2 * SQUISH_CONSTANT_4D
                     dz_ext1 = dz0 - 2 * SQUISH_CONSTANT_4D
                     dw_ext1 = dw0 - 2 * SQUISH_CONSTANT_4D
-                    if (c1 and 0x01 != 0) {
+                    if (c1 and 0x01 != 0.toByte()) {
                         xsv_ext0 += 1
                         dx_ext0 -= 1.0
                         xsv_ext1 += 2
                         dx_ext1 -= 2.0
-                    } else if (c1 and 0x02 != 0) {
+                    } else if (c1 and 0x02 != 0.toByte()) {
                         ysv_ext0 += 1
                         dy_ext0 -= 1.0
                         ysv_ext1 += 2
                         dy_ext1 -= 2.0
-                    } else if (c1 and 0x04 != 0) {
+                    } else if (c1 and 0x04 != 0.toByte()) {
                         zsv_ext0 += 1
                         dz_ext0 -= 1.0
                         zsv_ext1 += 2
@@ -1878,13 +1882,13 @@ class OpenSimplexNoise {
                     dy_ext2 = dy0 - 1 - 2 * SQUISH_CONSTANT_4D
                     dz_ext2 = dz0 - 1 - 2 * SQUISH_CONSTANT_4D
                     dw_ext2 = dw0 - 1 - 2 * SQUISH_CONSTANT_4D
-                    if (c2 and 0x01 == 0) {
+                    if (c2 and 0x01 == 0.toByte()) {
                         xsv_ext2 -= 2
                         dx_ext2 += 2.0
-                    } else if (c2 and 0x02 == 0) {
+                    } else if (c2 and 0x02 == 0.toByte()) {
                         ysv_ext2 -= 2
                         dy_ext2 += 2.0
-                    } else if (c2 and 0x04 == 0) {
+                    } else if (c2 and 0x04 == 0.toByte()) {
                         zsv_ext2 -= 2
                         dz_ext2 += 2.0
                     } else {
@@ -1903,8 +1907,8 @@ class OpenSimplexNoise {
                     dw_ext2 = dw0 - 1 - 4 * SQUISH_CONSTANT_4D
 
                     // Other two points are based on the shared axes.
-                    val c = (aPoint and bPoint) as Byte
-                    if (c and 0x01 != 0) {
+                    val c = (aPoint and bPoint)
+                    if (c and 0x01 != 0.toByte()) {
                         xsv_ext0 = xsb + 2
                         xsv_ext1 = xsb + 1
                         dx_ext0 = dx0 - 2 - 3 * SQUISH_CONSTANT_4D
@@ -1915,12 +1919,12 @@ class OpenSimplexNoise {
                         dx_ext1 = dx0 - 3 * SQUISH_CONSTANT_4D
                         dx_ext0 = dx_ext1
                     }
-                    if (c and 0x02 != 0) {
+                    if (c and 0x02 != 0.toByte()) {
                         ysv_ext1 = ysb + 1
                         ysv_ext0 = ysv_ext1
                         dy_ext1 = dy0 - 1 - 3 * SQUISH_CONSTANT_4D
                         dy_ext0 = dy_ext1
-                        if (c and 0x01 == 0) {
+                        if (c and 0x01 == 0.toByte()) {
                             ysv_ext0 += 1
                             dy_ext0 -= 1.0
                         } else {
@@ -1933,12 +1937,12 @@ class OpenSimplexNoise {
                         dy_ext1 = dy0 - 3 * SQUISH_CONSTANT_4D
                         dy_ext0 = dy_ext1
                     }
-                    if (c and 0x04 != 0) {
+                    if (c and 0x04 != 0.toByte()) {
                         zsv_ext1 = zsb + 1
                         zsv_ext0 = zsv_ext1
                         dz_ext1 = dz0 - 1 - 3 * SQUISH_CONSTANT_4D
                         dz_ext0 = dz_ext1
-                        if (c and 0x03 == 0) {
+                        if (c and 0x03 == 0.toByte()) {
                             zsv_ext0 += 1
                             dz_ext0 -= 1.0
                         } else {
@@ -1951,7 +1955,7 @@ class OpenSimplexNoise {
                         dz_ext1 = dz0 - 3 * SQUISH_CONSTANT_4D
                         dz_ext0 = dz_ext1
                     }
-                    if (c and 0x08 != 0) {
+                    if (c and 0x08 != 0.toByte()) {
                         wsv_ext0 = wsb + 1
                         wsv_ext1 = wsb + 2
                         dw_ext0 = dw0 - 1 - 3 * SQUISH_CONSTANT_4D
@@ -1975,7 +1979,7 @@ class OpenSimplexNoise {
                 }
 
                 // Two contributions are the bigger-sided point with each 1 replaced with 2.
-                if (c1 and 0x01 != 0) {
+                if (c1 and 0x01 != 0.toByte()) {
                     xsv_ext0 = xsb + 2
                     xsv_ext1 = xsb + 1
                     dx_ext0 = dx0 - 2 - 3 * SQUISH_CONSTANT_4D
@@ -1986,12 +1990,12 @@ class OpenSimplexNoise {
                     dx_ext1 = dx0 - 3 * SQUISH_CONSTANT_4D
                     dx_ext0 = dx_ext1
                 }
-                if (c1 and 0x02 != 0) {
+                if (c1 and 0x02 != 0.toByte()) {
                     ysv_ext1 = ysb + 1
                     ysv_ext0 = ysv_ext1
                     dy_ext1 = dy0 - 1 - 3 * SQUISH_CONSTANT_4D
                     dy_ext0 = dy_ext1
-                    if (c1 and 0x01 == 0) {
+                    if (c1 and 0x01 == 0.toByte()) {
                         ysv_ext0 += 1
                         dy_ext0 -= 1.0
                     } else {
@@ -2004,12 +2008,12 @@ class OpenSimplexNoise {
                     dy_ext1 = dy0 - 3 * SQUISH_CONSTANT_4D
                     dy_ext0 = dy_ext1
                 }
-                if (c1 and 0x04 != 0) {
+                if (c1 and 0x04 != 0.toByte()) {
                     zsv_ext1 = zsb + 1
                     zsv_ext0 = zsv_ext1
                     dz_ext1 = dz0 - 1 - 3 * SQUISH_CONSTANT_4D
                     dz_ext0 = dz_ext1
-                    if (c1 and 0x03 == 0) {
+                    if (c1 and 0x03 == 0.toByte()) {
                         zsv_ext0 += 1
                         dz_ext0 -= 1.0
                     } else {
@@ -2022,7 +2026,7 @@ class OpenSimplexNoise {
                     dz_ext1 = dz0 - 3 * SQUISH_CONSTANT_4D
                     dz_ext0 = dz_ext1
                 }
-                if (c1 and 0x08 != 0) {
+                if (c1 and 0x08 != 0.toByte()) {
                     wsv_ext0 = wsb + 1
                     wsv_ext1 = wsb + 2
                     dw_ext0 = dw0 - 1 - 3 * SQUISH_CONSTANT_4D
@@ -2043,13 +2047,13 @@ class OpenSimplexNoise {
                 dy_ext2 = dy0 - 1 - 2 * SQUISH_CONSTANT_4D
                 dz_ext2 = dz0 - 1 - 2 * SQUISH_CONSTANT_4D
                 dw_ext2 = dw0 - 1 - 2 * SQUISH_CONSTANT_4D
-                if (c2 and 0x01 == 0) {
+                if (c2 and 0x01 == 0.toByte()) {
                     xsv_ext2 -= 2
                     dx_ext2 += 2.0
-                } else if (c2 and 0x02 == 0) {
+                } else if (c2 and 0x02 == 0.toByte()) {
                     ysv_ext2 -= 2
                     dy_ext2 += 2.0
-                } else if (c2 and 0x04 == 0) {
+                } else if (c2 and 0x04 == 0.toByte()) {
                     zsv_ext2 -= 2
                     dz_ext2 += 2.0
                 } else {
@@ -2216,7 +2220,7 @@ class OpenSimplexNoise {
 
     private fun extrapolate(xsb: Int, ysb: Int, dx: Double, dy: Double): Double {
         val grad =
-            permGrad2[perm[xsb and PMASK] xor (ysb and PMASK)]
+            permGrad2[(perm[xsb and PMASK] xor ((ysb and PMASK).toShort())).toInt()]
         return grad!!.dx * dx + grad.dy * dy
     }
 
@@ -2229,7 +2233,7 @@ class OpenSimplexNoise {
         dz: Double
     ): Double {
         val grad =
-            permGrad3[perm[perm[xsb and PMASK] xor (ysb and PMASK)] xor (zsb and PMASK)]
+            permGrad3[(perm[(perm[xsb and PMASK] xor ((ysb and PMASK).toShort())).toInt()] xor ((zsb and PMASK).toShort())).toInt()]
         return grad!!.dx * dx + grad.dy * dy + grad.dz * dz
     }
 
@@ -2244,7 +2248,7 @@ class OpenSimplexNoise {
         dw: Double
     ): Double {
         val grad =
-            permGrad4[perm[perm[perm[xsb and PMASK] xor (ysb and PMASK)] xor (zsb and PMASK)] xor (wsb and PMASK)]
+            permGrad4[(perm[(perm[(perm[xsb and PMASK] xor ((ysb and PMASK).toShort())).toInt()] xor ((zsb and PMASK).toShort())).toInt()] xor ((wsb and PMASK).toShort())).toInt()]
         return grad!!.dx * dx + grad.dy * dy + grad.dz * dz + grad.dw * dw
     }
 
@@ -2272,272 +2276,1342 @@ class OpenSimplexNoise {
         private const val N2 = 7.69084574549313
         private const val N3 = 26.92263139946168
         private const val N4 = 8.881759591352166
-        private val GRADIENTS_2D = arrayOfNulls<Grad2>(PSIZE)
-        private val GRADIENTS_3D = arrayOfNulls<Grad3>(PSIZE)
-        private val GRADIENTS_4D = arrayOfNulls<Grad4>(PSIZE)
+        private val GRADIENTS_2D = arrayOfNulls<Grad2>(
+            PSIZE
+        )
+        private val GRADIENTS_3D = arrayOfNulls<Grad3>(
+            PSIZE
+        )
+        private val GRADIENTS_4D = arrayOfNulls<Grad4>(
+            PSIZE
+        )
 
         init {
             val grad2 = arrayOf(
-                Grad2(0.130526192220052, 0.99144486137381),
-                Grad2(0.38268343236509, 0.923879532511287),
-                Grad2(0.608761429008721, 0.793353340291235),
-                Grad2(0.793353340291235, 0.608761429008721),
-                Grad2(0.923879532511287, 0.38268343236509),
-                Grad2(0.99144486137381, 0.130526192220051),
-                Grad2(0.99144486137381, -0.130526192220051),
-                Grad2(0.923879532511287, -0.38268343236509),
-                Grad2(0.793353340291235, -0.60876142900872),
-                Grad2(0.608761429008721, -0.793353340291235),
-                Grad2(0.38268343236509, -0.923879532511287),
-                Grad2(0.130526192220052, -0.99144486137381),
-                Grad2(-0.130526192220052, -0.99144486137381),
-                Grad2(-0.38268343236509, -0.923879532511287),
-                Grad2(-0.608761429008721, -0.793353340291235),
-                Grad2(-0.793353340291235, -0.608761429008721),
-                Grad2(-0.923879532511287, -0.38268343236509),
-                Grad2(-0.99144486137381, -0.130526192220052),
-                Grad2(-0.99144486137381, 0.130526192220051),
-                Grad2(-0.923879532511287, 0.38268343236509),
-                Grad2(-0.793353340291235, 0.608761429008721),
-                Grad2(-0.608761429008721, 0.793353340291235),
-                Grad2(-0.38268343236509, 0.923879532511287),
-                Grad2(-0.130526192220052, 0.99144486137381)
+                Grad2(
+                    0.130526192220052,
+                    0.99144486137381
+                ),
+                Grad2(
+                    0.38268343236509,
+                    0.923879532511287
+                ),
+                Grad2(
+                    0.608761429008721,
+                    0.793353340291235
+                ),
+                Grad2(
+                    0.793353340291235,
+                    0.608761429008721
+                ),
+                Grad2(
+                    0.923879532511287,
+                    0.38268343236509
+                ),
+                Grad2(
+                    0.99144486137381,
+                    0.130526192220051
+                ),
+                Grad2(
+                    0.99144486137381,
+                    -0.130526192220051
+                ),
+                Grad2(
+                    0.923879532511287,
+                    -0.38268343236509
+                ),
+                Grad2(
+                    0.793353340291235,
+                    -0.60876142900872
+                ),
+                Grad2(
+                    0.608761429008721,
+                    -0.793353340291235
+                ),
+                Grad2(
+                    0.38268343236509,
+                    -0.923879532511287
+                ),
+                Grad2(
+                    0.130526192220052,
+                    -0.99144486137381
+                ),
+                Grad2(
+                    -0.130526192220052,
+                    -0.99144486137381
+                ),
+                Grad2(
+                    -0.38268343236509,
+                    -0.923879532511287
+                ),
+                Grad2(
+                    -0.608761429008721,
+                    -0.793353340291235
+                ),
+                Grad2(
+                    -0.793353340291235,
+                    -0.608761429008721
+                ),
+                Grad2(
+                    -0.923879532511287,
+                    -0.38268343236509
+                ),
+                Grad2(
+                    -0.99144486137381,
+                    -0.130526192220052
+                ),
+                Grad2(
+                    -0.99144486137381,
+                    0.130526192220051
+                ),
+                Grad2(
+                    -0.923879532511287,
+                    0.38268343236509
+                ),
+                Grad2(
+                    -0.793353340291235,
+                    0.608761429008721
+                ),
+                Grad2(
+                    -0.608761429008721,
+                    0.793353340291235
+                ),
+                Grad2(
+                    -0.38268343236509,
+                    0.923879532511287
+                ),
+                Grad2(
+                    -0.130526192220052,
+                    0.99144486137381
+                )
             )
-            for (i in mpeciakk.world.grad2.indices) {
-                mpeciakk.world.grad2.get(i).dx /= N2
-                mpeciakk.world.grad2.get(i).dy /= N2
+            for (i in grad2.indices) {
+                grad2.get(i).dx /= N2
+                grad2.get(i).dy /= N2
             }
             for (i in 0 until PSIZE) {
-                GRADIENTS_2D[i] = mpeciakk.world.grad2.get(i % mpeciakk.world.grad2.size)
+                GRADIENTS_2D[i] = grad2.get(i % grad2.size)
             }
             val grad3 = arrayOf(
-                Grad3(-1.4082482904633333, -1.4082482904633333, -2.6329931618533333),
-                Grad3(-0.07491495712999985, -0.07491495712999985, -3.29965982852),
-                Grad3(0.24732126143473554, -1.6667938651159684, -2.838945207362466),
-                Grad3(-1.6667938651159684, 0.24732126143473554, -2.838945207362466),
-                Grad3(-1.4082482904633333, -2.6329931618533333, -1.4082482904633333),
-                Grad3(-0.07491495712999985, -3.29965982852, -0.07491495712999985),
-                Grad3(-1.6667938651159684, -2.838945207362466, 0.24732126143473554),
-                Grad3(0.24732126143473554, -2.838945207362466, -1.6667938651159684),
-                Grad3(1.5580782047233335, 0.33333333333333337, -2.8914115380566665),
-                Grad3(2.8914115380566665, -0.33333333333333337, -1.5580782047233335),
-                Grad3(1.8101897177633992, -1.2760767510338025, -2.4482280932803),
-                Grad3(2.4482280932803, 1.2760767510338025, -1.8101897177633992),
-                Grad3(1.5580782047233335, -2.8914115380566665, 0.33333333333333337),
-                Grad3(2.8914115380566665, -1.5580782047233335, -0.33333333333333337),
-                Grad3(2.4482280932803, -1.8101897177633992, 1.2760767510338025),
-                Grad3(1.8101897177633992, -2.4482280932803, -1.2760767510338025),
-                Grad3(-2.6329931618533333, -1.4082482904633333, -1.4082482904633333),
-                Grad3(-3.29965982852, -0.07491495712999985, -0.07491495712999985),
-                Grad3(-2.838945207362466, 0.24732126143473554, -1.6667938651159684),
-                Grad3(-2.838945207362466, -1.6667938651159684, 0.24732126143473554),
-                Grad3(0.33333333333333337, 1.5580782047233335, -2.8914115380566665),
-                Grad3(-0.33333333333333337, 2.8914115380566665, -1.5580782047233335),
-                Grad3(1.2760767510338025, 2.4482280932803, -1.8101897177633992),
-                Grad3(-1.2760767510338025, 1.8101897177633992, -2.4482280932803),
-                Grad3(0.33333333333333337, -2.8914115380566665, 1.5580782047233335),
-                Grad3(-0.33333333333333337, -1.5580782047233335, 2.8914115380566665),
-                Grad3(-1.2760767510338025, -2.4482280932803, 1.8101897177633992),
-                Grad3(1.2760767510338025, -1.8101897177633992, 2.4482280932803),
-                Grad3(3.29965982852, 0.07491495712999985, 0.07491495712999985),
-                Grad3(2.6329931618533333, 1.4082482904633333, 1.4082482904633333),
-                Grad3(2.838945207362466, -0.24732126143473554, 1.6667938651159684),
-                Grad3(2.838945207362466, 1.6667938651159684, -0.24732126143473554),
-                Grad3(-2.8914115380566665, 1.5580782047233335, 0.33333333333333337),
-                Grad3(-1.5580782047233335, 2.8914115380566665, -0.33333333333333337),
-                Grad3(-2.4482280932803, 1.8101897177633992, -1.2760767510338025),
-                Grad3(-1.8101897177633992, 2.4482280932803, 1.2760767510338025),
-                Grad3(-2.8914115380566665, 0.33333333333333337, 1.5580782047233335),
-                Grad3(-1.5580782047233335, -0.33333333333333337, 2.8914115380566665),
-                Grad3(-1.8101897177633992, 1.2760767510338025, 2.4482280932803),
-                Grad3(-2.4482280932803, -1.2760767510338025, 1.8101897177633992),
-                Grad3(0.07491495712999985, 3.29965982852, 0.07491495712999985),
-                Grad3(1.4082482904633333, 2.6329931618533333, 1.4082482904633333),
-                Grad3(1.6667938651159684, 2.838945207362466, -0.24732126143473554),
-                Grad3(-0.24732126143473554, 2.838945207362466, 1.6667938651159684),
-                Grad3(0.07491495712999985, 0.07491495712999985, 3.29965982852),
-                Grad3(1.4082482904633333, 1.4082482904633333, 2.6329931618533333),
-                Grad3(-0.24732126143473554, 1.6667938651159684, 2.838945207362466),
-                Grad3(1.6667938651159684, -0.24732126143473554, 2.838945207362466)
+                Grad3(
+                    -1.4082482904633333,
+                    -1.4082482904633333,
+                    -2.6329931618533333
+                ),
+                Grad3(
+                    -0.07491495712999985,
+                    -0.07491495712999985,
+                    -3.29965982852
+                ),
+                Grad3(
+                    0.24732126143473554,
+                    -1.6667938651159684,
+                    -2.838945207362466
+                ),
+                Grad3(
+                    -1.6667938651159684,
+                    0.24732126143473554,
+                    -2.838945207362466
+                ),
+                Grad3(
+                    -1.4082482904633333,
+                    -2.6329931618533333,
+                    -1.4082482904633333
+                ),
+                Grad3(
+                    -0.07491495712999985,
+                    -3.29965982852,
+                    -0.07491495712999985
+                ),
+                Grad3(
+                    -1.6667938651159684,
+                    -2.838945207362466,
+                    0.24732126143473554
+                ),
+                Grad3(
+                    0.24732126143473554,
+                    -2.838945207362466,
+                    -1.6667938651159684
+                ),
+                Grad3(
+                    1.5580782047233335,
+                    0.33333333333333337,
+                    -2.8914115380566665
+                ),
+                Grad3(
+                    2.8914115380566665,
+                    -0.33333333333333337,
+                    -1.5580782047233335
+                ),
+                Grad3(
+                    1.8101897177633992,
+                    -1.2760767510338025,
+                    -2.4482280932803
+                ),
+                Grad3(
+                    2.4482280932803,
+                    1.2760767510338025,
+                    -1.8101897177633992
+                ),
+                Grad3(
+                    1.5580782047233335,
+                    -2.8914115380566665,
+                    0.33333333333333337
+                ),
+                Grad3(
+                    2.8914115380566665,
+                    -1.5580782047233335,
+                    -0.33333333333333337
+                ),
+                Grad3(
+                    2.4482280932803,
+                    -1.8101897177633992,
+                    1.2760767510338025
+                ),
+                Grad3(
+                    1.8101897177633992,
+                    -2.4482280932803,
+                    -1.2760767510338025
+                ),
+                Grad3(
+                    -2.6329931618533333,
+                    -1.4082482904633333,
+                    -1.4082482904633333
+                ),
+                Grad3(
+                    -3.29965982852,
+                    -0.07491495712999985,
+                    -0.07491495712999985
+                ),
+                Grad3(
+                    -2.838945207362466,
+                    0.24732126143473554,
+                    -1.6667938651159684
+                ),
+                Grad3(
+                    -2.838945207362466,
+                    -1.6667938651159684,
+                    0.24732126143473554
+                ),
+                Grad3(
+                    0.33333333333333337,
+                    1.5580782047233335,
+                    -2.8914115380566665
+                ),
+                Grad3(
+                    -0.33333333333333337,
+                    2.8914115380566665,
+                    -1.5580782047233335
+                ),
+                Grad3(
+                    1.2760767510338025,
+                    2.4482280932803,
+                    -1.8101897177633992
+                ),
+                Grad3(
+                    -1.2760767510338025,
+                    1.8101897177633992,
+                    -2.4482280932803
+                ),
+                Grad3(
+                    0.33333333333333337,
+                    -2.8914115380566665,
+                    1.5580782047233335
+                ),
+                Grad3(
+                    -0.33333333333333337,
+                    -1.5580782047233335,
+                    2.8914115380566665
+                ),
+                Grad3(
+                    -1.2760767510338025,
+                    -2.4482280932803,
+                    1.8101897177633992
+                ),
+                Grad3(
+                    1.2760767510338025,
+                    -1.8101897177633992,
+                    2.4482280932803
+                ),
+                Grad3(
+                    3.29965982852,
+                    0.07491495712999985,
+                    0.07491495712999985
+                ),
+                Grad3(
+                    2.6329931618533333,
+                    1.4082482904633333,
+                    1.4082482904633333
+                ),
+                Grad3(
+                    2.838945207362466,
+                    -0.24732126143473554,
+                    1.6667938651159684
+                ),
+                Grad3(
+                    2.838945207362466,
+                    1.6667938651159684,
+                    -0.24732126143473554
+                ),
+                Grad3(
+                    -2.8914115380566665,
+                    1.5580782047233335,
+                    0.33333333333333337
+                ),
+                Grad3(
+                    -1.5580782047233335,
+                    2.8914115380566665,
+                    -0.33333333333333337
+                ),
+                Grad3(
+                    -2.4482280932803,
+                    1.8101897177633992,
+                    -1.2760767510338025
+                ),
+                Grad3(
+                    -1.8101897177633992,
+                    2.4482280932803,
+                    1.2760767510338025
+                ),
+                Grad3(
+                    -2.8914115380566665,
+                    0.33333333333333337,
+                    1.5580782047233335
+                ),
+                Grad3(
+                    -1.5580782047233335,
+                    -0.33333333333333337,
+                    2.8914115380566665
+                ),
+                Grad3(
+                    -1.8101897177633992,
+                    1.2760767510338025,
+                    2.4482280932803
+                ),
+                Grad3(
+                    -2.4482280932803,
+                    -1.2760767510338025,
+                    1.8101897177633992
+                ),
+                Grad3(
+                    0.07491495712999985,
+                    3.29965982852,
+                    0.07491495712999985
+                ),
+                Grad3(
+                    1.4082482904633333,
+                    2.6329931618533333,
+                    1.4082482904633333
+                ),
+                Grad3(
+                    1.6667938651159684,
+                    2.838945207362466,
+                    -0.24732126143473554
+                ),
+                Grad3(
+                    -0.24732126143473554,
+                    2.838945207362466,
+                    1.6667938651159684
+                ),
+                Grad3(
+                    0.07491495712999985,
+                    0.07491495712999985,
+                    3.29965982852
+                ),
+                Grad3(
+                    1.4082482904633333,
+                    1.4082482904633333,
+                    2.6329931618533333
+                ),
+                Grad3(
+                    -0.24732126143473554,
+                    1.6667938651159684,
+                    2.838945207362466
+                ),
+                Grad3(
+                    1.6667938651159684,
+                    -0.24732126143473554,
+                    2.838945207362466
+                )
             )
-            for (i in mpeciakk.world.grad3.indices) {
-                mpeciakk.world.grad3.get(i).dx /= N3
-                mpeciakk.world.grad3.get(i).dy /= N3
-                mpeciakk.world.grad3.get(i).dz /= N3
+            for (i in grad3.indices) {
+                grad3.get(i).dx /= N3
+                grad3.get(i).dy /= N3
+                grad3.get(i).dz /= N3
             }
             for (i in 0 until PSIZE) {
-                GRADIENTS_3D[i] = mpeciakk.world.grad3.get(i % mpeciakk.world.grad3.size)
+                GRADIENTS_3D[i] = grad3.get(i % grad3.size)
             }
             val grad4 = arrayOf(
-                Grad4(-0.753341017856078, -0.37968289875261624, -0.37968289875261624, -0.37968289875261624),
-                Grad4(-0.7821684431180708, -0.4321472685365301, -0.4321472685365301, 0.12128480194602098),
-                Grad4(-0.7821684431180708, -0.4321472685365301, 0.12128480194602098, -0.4321472685365301),
-                Grad4(-0.7821684431180708, 0.12128480194602098, -0.4321472685365301, -0.4321472685365301),
-                Grad4(-0.8586508742123365, -0.508629699630796, 0.044802370851755174, 0.044802370851755174),
-                Grad4(-0.8586508742123365, 0.044802370851755174, -0.508629699630796, 0.044802370851755174),
-                Grad4(-0.8586508742123365, 0.044802370851755174, 0.044802370851755174, -0.508629699630796),
-                Grad4(-0.9982828964265062, -0.03381941603233842, -0.03381941603233842, -0.03381941603233842),
-                Grad4(-0.37968289875261624, -0.753341017856078, -0.37968289875261624, -0.37968289875261624),
-                Grad4(-0.4321472685365301, -0.7821684431180708, -0.4321472685365301, 0.12128480194602098),
-                Grad4(-0.4321472685365301, -0.7821684431180708, 0.12128480194602098, -0.4321472685365301),
-                Grad4(0.12128480194602098, -0.7821684431180708, -0.4321472685365301, -0.4321472685365301),
-                Grad4(-0.508629699630796, -0.8586508742123365, 0.044802370851755174, 0.044802370851755174),
-                Grad4(0.044802370851755174, -0.8586508742123365, -0.508629699630796, 0.044802370851755174),
-                Grad4(0.044802370851755174, -0.8586508742123365, 0.044802370851755174, -0.508629699630796),
-                Grad4(-0.03381941603233842, -0.9982828964265062, -0.03381941603233842, -0.03381941603233842),
-                Grad4(-0.37968289875261624, -0.37968289875261624, -0.753341017856078, -0.37968289875261624),
-                Grad4(-0.4321472685365301, -0.4321472685365301, -0.7821684431180708, 0.12128480194602098),
-                Grad4(-0.4321472685365301, 0.12128480194602098, -0.7821684431180708, -0.4321472685365301),
-                Grad4(0.12128480194602098, -0.4321472685365301, -0.7821684431180708, -0.4321472685365301),
-                Grad4(-0.508629699630796, 0.044802370851755174, -0.8586508742123365, 0.044802370851755174),
-                Grad4(0.044802370851755174, -0.508629699630796, -0.8586508742123365, 0.044802370851755174),
-                Grad4(0.044802370851755174, 0.044802370851755174, -0.8586508742123365, -0.508629699630796),
-                Grad4(-0.03381941603233842, -0.03381941603233842, -0.9982828964265062, -0.03381941603233842),
-                Grad4(-0.37968289875261624, -0.37968289875261624, -0.37968289875261624, -0.753341017856078),
-                Grad4(-0.4321472685365301, -0.4321472685365301, 0.12128480194602098, -0.7821684431180708),
-                Grad4(-0.4321472685365301, 0.12128480194602098, -0.4321472685365301, -0.7821684431180708),
-                Grad4(0.12128480194602098, -0.4321472685365301, -0.4321472685365301, -0.7821684431180708),
-                Grad4(-0.508629699630796, 0.044802370851755174, 0.044802370851755174, -0.8586508742123365),
-                Grad4(0.044802370851755174, -0.508629699630796, 0.044802370851755174, -0.8586508742123365),
-                Grad4(0.044802370851755174, 0.044802370851755174, -0.508629699630796, -0.8586508742123365),
-                Grad4(-0.03381941603233842, -0.03381941603233842, -0.03381941603233842, -0.9982828964265062),
-                Grad4(-0.6740059517812944, -0.3239847771997537, -0.3239847771997537, 0.5794684678643381),
-                Grad4(-0.7504883828755602, -0.4004672082940195, 0.15296486218853164, 0.5029860367700724),
-                Grad4(-0.7504883828755602, 0.15296486218853164, -0.4004672082940195, 0.5029860367700724),
-                Grad4(-0.8828161875373585, 0.08164729285680945, 0.08164729285680945, 0.4553054119602712),
-                Grad4(-0.4553054119602712, -0.08164729285680945, -0.08164729285680945, 0.8828161875373585),
-                Grad4(-0.5029860367700724, -0.15296486218853164, 0.4004672082940195, 0.7504883828755602),
-                Grad4(-0.5029860367700724, 0.4004672082940195, -0.15296486218853164, 0.7504883828755602),
-                Grad4(-0.5794684678643381, 0.3239847771997537, 0.3239847771997537, 0.6740059517812944),
-                Grad4(-0.3239847771997537, -0.6740059517812944, -0.3239847771997537, 0.5794684678643381),
-                Grad4(-0.4004672082940195, -0.7504883828755602, 0.15296486218853164, 0.5029860367700724),
-                Grad4(0.15296486218853164, -0.7504883828755602, -0.4004672082940195, 0.5029860367700724),
-                Grad4(0.08164729285680945, -0.8828161875373585, 0.08164729285680945, 0.4553054119602712),
-                Grad4(-0.08164729285680945, -0.4553054119602712, -0.08164729285680945, 0.8828161875373585),
-                Grad4(-0.15296486218853164, -0.5029860367700724, 0.4004672082940195, 0.7504883828755602),
-                Grad4(0.4004672082940195, -0.5029860367700724, -0.15296486218853164, 0.7504883828755602),
-                Grad4(0.3239847771997537, -0.5794684678643381, 0.3239847771997537, 0.6740059517812944),
-                Grad4(-0.3239847771997537, -0.3239847771997537, -0.6740059517812944, 0.5794684678643381),
-                Grad4(-0.4004672082940195, 0.15296486218853164, -0.7504883828755602, 0.5029860367700724),
-                Grad4(0.15296486218853164, -0.4004672082940195, -0.7504883828755602, 0.5029860367700724),
-                Grad4(0.08164729285680945, 0.08164729285680945, -0.8828161875373585, 0.4553054119602712),
-                Grad4(-0.08164729285680945, -0.08164729285680945, -0.4553054119602712, 0.8828161875373585),
-                Grad4(-0.15296486218853164, 0.4004672082940195, -0.5029860367700724, 0.7504883828755602),
-                Grad4(0.4004672082940195, -0.15296486218853164, -0.5029860367700724, 0.7504883828755602),
-                Grad4(0.3239847771997537, 0.3239847771997537, -0.5794684678643381, 0.6740059517812944),
-                Grad4(-0.6740059517812944, -0.3239847771997537, 0.5794684678643381, -0.3239847771997537),
-                Grad4(-0.7504883828755602, -0.4004672082940195, 0.5029860367700724, 0.15296486218853164),
-                Grad4(-0.7504883828755602, 0.15296486218853164, 0.5029860367700724, -0.4004672082940195),
-                Grad4(-0.8828161875373585, 0.08164729285680945, 0.4553054119602712, 0.08164729285680945),
-                Grad4(-0.4553054119602712, -0.08164729285680945, 0.8828161875373585, -0.08164729285680945),
-                Grad4(-0.5029860367700724, -0.15296486218853164, 0.7504883828755602, 0.4004672082940195),
-                Grad4(-0.5029860367700724, 0.4004672082940195, 0.7504883828755602, -0.15296486218853164),
-                Grad4(-0.5794684678643381, 0.3239847771997537, 0.6740059517812944, 0.3239847771997537),
-                Grad4(-0.3239847771997537, -0.6740059517812944, 0.5794684678643381, -0.3239847771997537),
-                Grad4(-0.4004672082940195, -0.7504883828755602, 0.5029860367700724, 0.15296486218853164),
-                Grad4(0.15296486218853164, -0.7504883828755602, 0.5029860367700724, -0.4004672082940195),
-                Grad4(0.08164729285680945, -0.8828161875373585, 0.4553054119602712, 0.08164729285680945),
-                Grad4(-0.08164729285680945, -0.4553054119602712, 0.8828161875373585, -0.08164729285680945),
-                Grad4(-0.15296486218853164, -0.5029860367700724, 0.7504883828755602, 0.4004672082940195),
-                Grad4(0.4004672082940195, -0.5029860367700724, 0.7504883828755602, -0.15296486218853164),
-                Grad4(0.3239847771997537, -0.5794684678643381, 0.6740059517812944, 0.3239847771997537),
-                Grad4(-0.3239847771997537, -0.3239847771997537, 0.5794684678643381, -0.6740059517812944),
-                Grad4(-0.4004672082940195, 0.15296486218853164, 0.5029860367700724, -0.7504883828755602),
-                Grad4(0.15296486218853164, -0.4004672082940195, 0.5029860367700724, -0.7504883828755602),
-                Grad4(0.08164729285680945, 0.08164729285680945, 0.4553054119602712, -0.8828161875373585),
-                Grad4(-0.08164729285680945, -0.08164729285680945, 0.8828161875373585, -0.4553054119602712),
-                Grad4(-0.15296486218853164, 0.4004672082940195, 0.7504883828755602, -0.5029860367700724),
-                Grad4(0.4004672082940195, -0.15296486218853164, 0.7504883828755602, -0.5029860367700724),
-                Grad4(0.3239847771997537, 0.3239847771997537, 0.6740059517812944, -0.5794684678643381),
-                Grad4(-0.6740059517812944, 0.5794684678643381, -0.3239847771997537, -0.3239847771997537),
-                Grad4(-0.7504883828755602, 0.5029860367700724, -0.4004672082940195, 0.15296486218853164),
-                Grad4(-0.7504883828755602, 0.5029860367700724, 0.15296486218853164, -0.4004672082940195),
-                Grad4(-0.8828161875373585, 0.4553054119602712, 0.08164729285680945, 0.08164729285680945),
-                Grad4(-0.4553054119602712, 0.8828161875373585, -0.08164729285680945, -0.08164729285680945),
-                Grad4(-0.5029860367700724, 0.7504883828755602, -0.15296486218853164, 0.4004672082940195),
-                Grad4(-0.5029860367700724, 0.7504883828755602, 0.4004672082940195, -0.15296486218853164),
-                Grad4(-0.5794684678643381, 0.6740059517812944, 0.3239847771997537, 0.3239847771997537),
-                Grad4(-0.3239847771997537, 0.5794684678643381, -0.6740059517812944, -0.3239847771997537),
-                Grad4(-0.4004672082940195, 0.5029860367700724, -0.7504883828755602, 0.15296486218853164),
-                Grad4(0.15296486218853164, 0.5029860367700724, -0.7504883828755602, -0.4004672082940195),
-                Grad4(0.08164729285680945, 0.4553054119602712, -0.8828161875373585, 0.08164729285680945),
-                Grad4(-0.08164729285680945, 0.8828161875373585, -0.4553054119602712, -0.08164729285680945),
-                Grad4(-0.15296486218853164, 0.7504883828755602, -0.5029860367700724, 0.4004672082940195),
-                Grad4(0.4004672082940195, 0.7504883828755602, -0.5029860367700724, -0.15296486218853164),
-                Grad4(0.3239847771997537, 0.6740059517812944, -0.5794684678643381, 0.3239847771997537),
-                Grad4(-0.3239847771997537, 0.5794684678643381, -0.3239847771997537, -0.6740059517812944),
-                Grad4(-0.4004672082940195, 0.5029860367700724, 0.15296486218853164, -0.7504883828755602),
-                Grad4(0.15296486218853164, 0.5029860367700724, -0.4004672082940195, -0.7504883828755602),
-                Grad4(0.08164729285680945, 0.4553054119602712, 0.08164729285680945, -0.8828161875373585),
-                Grad4(-0.08164729285680945, 0.8828161875373585, -0.08164729285680945, -0.4553054119602712),
-                Grad4(-0.15296486218853164, 0.7504883828755602, 0.4004672082940195, -0.5029860367700724),
-                Grad4(0.4004672082940195, 0.7504883828755602, -0.15296486218853164, -0.5029860367700724),
-                Grad4(0.3239847771997537, 0.6740059517812944, 0.3239847771997537, -0.5794684678643381),
-                Grad4(0.5794684678643381, -0.6740059517812944, -0.3239847771997537, -0.3239847771997537),
-                Grad4(0.5029860367700724, -0.7504883828755602, -0.4004672082940195, 0.15296486218853164),
-                Grad4(0.5029860367700724, -0.7504883828755602, 0.15296486218853164, -0.4004672082940195),
-                Grad4(0.4553054119602712, -0.8828161875373585, 0.08164729285680945, 0.08164729285680945),
-                Grad4(0.8828161875373585, -0.4553054119602712, -0.08164729285680945, -0.08164729285680945),
-                Grad4(0.7504883828755602, -0.5029860367700724, -0.15296486218853164, 0.4004672082940195),
-                Grad4(0.7504883828755602, -0.5029860367700724, 0.4004672082940195, -0.15296486218853164),
-                Grad4(0.6740059517812944, -0.5794684678643381, 0.3239847771997537, 0.3239847771997537),
-                Grad4(0.5794684678643381, -0.3239847771997537, -0.6740059517812944, -0.3239847771997537),
-                Grad4(0.5029860367700724, -0.4004672082940195, -0.7504883828755602, 0.15296486218853164),
-                Grad4(0.5029860367700724, 0.15296486218853164, -0.7504883828755602, -0.4004672082940195),
-                Grad4(0.4553054119602712, 0.08164729285680945, -0.8828161875373585, 0.08164729285680945),
-                Grad4(0.8828161875373585, -0.08164729285680945, -0.4553054119602712, -0.08164729285680945),
-                Grad4(0.7504883828755602, -0.15296486218853164, -0.5029860367700724, 0.4004672082940195),
-                Grad4(0.7504883828755602, 0.4004672082940195, -0.5029860367700724, -0.15296486218853164),
-                Grad4(0.6740059517812944, 0.3239847771997537, -0.5794684678643381, 0.3239847771997537),
-                Grad4(0.5794684678643381, -0.3239847771997537, -0.3239847771997537, -0.6740059517812944),
-                Grad4(0.5029860367700724, -0.4004672082940195, 0.15296486218853164, -0.7504883828755602),
-                Grad4(0.5029860367700724, 0.15296486218853164, -0.4004672082940195, -0.7504883828755602),
-                Grad4(0.4553054119602712, 0.08164729285680945, 0.08164729285680945, -0.8828161875373585),
-                Grad4(0.8828161875373585, -0.08164729285680945, -0.08164729285680945, -0.4553054119602712),
-                Grad4(0.7504883828755602, -0.15296486218853164, 0.4004672082940195, -0.5029860367700724),
-                Grad4(0.7504883828755602, 0.4004672082940195, -0.15296486218853164, -0.5029860367700724),
-                Grad4(0.6740059517812944, 0.3239847771997537, 0.3239847771997537, -0.5794684678643381),
-                Grad4(0.03381941603233842, 0.03381941603233842, 0.03381941603233842, 0.9982828964265062),
-                Grad4(-0.044802370851755174, -0.044802370851755174, 0.508629699630796, 0.8586508742123365),
-                Grad4(-0.044802370851755174, 0.508629699630796, -0.044802370851755174, 0.8586508742123365),
-                Grad4(-0.12128480194602098, 0.4321472685365301, 0.4321472685365301, 0.7821684431180708),
-                Grad4(0.508629699630796, -0.044802370851755174, -0.044802370851755174, 0.8586508742123365),
-                Grad4(0.4321472685365301, -0.12128480194602098, 0.4321472685365301, 0.7821684431180708),
-                Grad4(0.4321472685365301, 0.4321472685365301, -0.12128480194602098, 0.7821684431180708),
-                Grad4(0.37968289875261624, 0.37968289875261624, 0.37968289875261624, 0.753341017856078),
-                Grad4(0.03381941603233842, 0.03381941603233842, 0.9982828964265062, 0.03381941603233842),
-                Grad4(-0.044802370851755174, 0.044802370851755174, 0.8586508742123365, 0.508629699630796),
-                Grad4(-0.044802370851755174, 0.508629699630796, 0.8586508742123365, -0.044802370851755174),
-                Grad4(-0.12128480194602098, 0.4321472685365301, 0.7821684431180708, 0.4321472685365301),
-                Grad4(0.508629699630796, -0.044802370851755174, 0.8586508742123365, -0.044802370851755174),
-                Grad4(0.4321472685365301, -0.12128480194602098, 0.7821684431180708, 0.4321472685365301),
-                Grad4(0.4321472685365301, 0.4321472685365301, 0.7821684431180708, -0.12128480194602098),
-                Grad4(0.37968289875261624, 0.37968289875261624, 0.753341017856078, 0.37968289875261624),
-                Grad4(0.03381941603233842, 0.9982828964265062, 0.03381941603233842, 0.03381941603233842),
-                Grad4(-0.044802370851755174, 0.8586508742123365, -0.044802370851755174, 0.508629699630796),
-                Grad4(-0.044802370851755174, 0.8586508742123365, 0.508629699630796, -0.044802370851755174),
-                Grad4(-0.12128480194602098, 0.7821684431180708, 0.4321472685365301, 0.4321472685365301),
-                Grad4(0.508629699630796, 0.8586508742123365, -0.044802370851755174, -0.044802370851755174),
-                Grad4(0.4321472685365301, 0.7821684431180708, -0.12128480194602098, 0.4321472685365301),
-                Grad4(0.4321472685365301, 0.7821684431180708, 0.4321472685365301, -0.12128480194602098),
-                Grad4(0.37968289875261624, 0.753341017856078, 0.37968289875261624, 0.37968289875261624),
-                Grad4(0.9982828964265062, 0.03381941603233842, 0.03381941603233842, 0.03381941603233842),
-                Grad4(0.8586508742123365, -0.044802370851755174, -0.044802370851755174, 0.508629699630796),
-                Grad4(0.8586508742123365, -0.044802370851755174, 0.508629699630796, -0.044802370851755174),
-                Grad4(0.7821684431180708, -0.12128480194602098, 0.4321472685365301, 0.4321472685365301),
-                Grad4(0.8586508742123365, 0.508629699630796, -0.044802370851755174, -0.044802370851755174),
-                Grad4(0.7821684431180708, 0.4321472685365301, -0.12128480194602098, 0.4321472685365301),
-                Grad4(0.7821684431180708, 0.4321472685365301, 0.4321472685365301, -0.12128480194602098),
-                Grad4(0.753341017856078, 0.37968289875261624, 0.37968289875261624, 0.37968289875261624)
+                Grad4(
+                    -0.753341017856078,
+                    -0.37968289875261624,
+                    -0.37968289875261624,
+                    -0.37968289875261624
+                ),
+                Grad4(
+                    -0.7821684431180708,
+                    -0.4321472685365301,
+                    -0.4321472685365301,
+                    0.12128480194602098
+                ),
+                Grad4(
+                    -0.7821684431180708,
+                    -0.4321472685365301,
+                    0.12128480194602098,
+                    -0.4321472685365301
+                ),
+                Grad4(
+                    -0.7821684431180708,
+                    0.12128480194602098,
+                    -0.4321472685365301,
+                    -0.4321472685365301
+                ),
+                Grad4(
+                    -0.8586508742123365,
+                    -0.508629699630796,
+                    0.044802370851755174,
+                    0.044802370851755174
+                ),
+                Grad4(
+                    -0.8586508742123365,
+                    0.044802370851755174,
+                    -0.508629699630796,
+                    0.044802370851755174
+                ),
+                Grad4(
+                    -0.8586508742123365,
+                    0.044802370851755174,
+                    0.044802370851755174,
+                    -0.508629699630796
+                ),
+                Grad4(
+                    -0.9982828964265062,
+                    -0.03381941603233842,
+                    -0.03381941603233842,
+                    -0.03381941603233842
+                ),
+                Grad4(
+                    -0.37968289875261624,
+                    -0.753341017856078,
+                    -0.37968289875261624,
+                    -0.37968289875261624
+                ),
+                Grad4(
+                    -0.4321472685365301,
+                    -0.7821684431180708,
+                    -0.4321472685365301,
+                    0.12128480194602098
+                ),
+                Grad4(
+                    -0.4321472685365301,
+                    -0.7821684431180708,
+                    0.12128480194602098,
+                    -0.4321472685365301
+                ),
+                Grad4(
+                    0.12128480194602098,
+                    -0.7821684431180708,
+                    -0.4321472685365301,
+                    -0.4321472685365301
+                ),
+                Grad4(
+                    -0.508629699630796,
+                    -0.8586508742123365,
+                    0.044802370851755174,
+                    0.044802370851755174
+                ),
+                Grad4(
+                    0.044802370851755174,
+                    -0.8586508742123365,
+                    -0.508629699630796,
+                    0.044802370851755174
+                ),
+                Grad4(
+                    0.044802370851755174,
+                    -0.8586508742123365,
+                    0.044802370851755174,
+                    -0.508629699630796
+                ),
+                Grad4(
+                    -0.03381941603233842,
+                    -0.9982828964265062,
+                    -0.03381941603233842,
+                    -0.03381941603233842
+                ),
+                Grad4(
+                    -0.37968289875261624,
+                    -0.37968289875261624,
+                    -0.753341017856078,
+                    -0.37968289875261624
+                ),
+                Grad4(
+                    -0.4321472685365301,
+                    -0.4321472685365301,
+                    -0.7821684431180708,
+                    0.12128480194602098
+                ),
+                Grad4(
+                    -0.4321472685365301,
+                    0.12128480194602098,
+                    -0.7821684431180708,
+                    -0.4321472685365301
+                ),
+                Grad4(
+                    0.12128480194602098,
+                    -0.4321472685365301,
+                    -0.7821684431180708,
+                    -0.4321472685365301
+                ),
+                Grad4(
+                    -0.508629699630796,
+                    0.044802370851755174,
+                    -0.8586508742123365,
+                    0.044802370851755174
+                ),
+                Grad4(
+                    0.044802370851755174,
+                    -0.508629699630796,
+                    -0.8586508742123365,
+                    0.044802370851755174
+                ),
+                Grad4(
+                    0.044802370851755174,
+                    0.044802370851755174,
+                    -0.8586508742123365,
+                    -0.508629699630796
+                ),
+                Grad4(
+                    -0.03381941603233842,
+                    -0.03381941603233842,
+                    -0.9982828964265062,
+                    -0.03381941603233842
+                ),
+                Grad4(
+                    -0.37968289875261624,
+                    -0.37968289875261624,
+                    -0.37968289875261624,
+                    -0.753341017856078
+                ),
+                Grad4(
+                    -0.4321472685365301,
+                    -0.4321472685365301,
+                    0.12128480194602098,
+                    -0.7821684431180708
+                ),
+                Grad4(
+                    -0.4321472685365301,
+                    0.12128480194602098,
+                    -0.4321472685365301,
+                    -0.7821684431180708
+                ),
+                Grad4(
+                    0.12128480194602098,
+                    -0.4321472685365301,
+                    -0.4321472685365301,
+                    -0.7821684431180708
+                ),
+                Grad4(
+                    -0.508629699630796,
+                    0.044802370851755174,
+                    0.044802370851755174,
+                    -0.8586508742123365
+                ),
+                Grad4(
+                    0.044802370851755174,
+                    -0.508629699630796,
+                    0.044802370851755174,
+                    -0.8586508742123365
+                ),
+                Grad4(
+                    0.044802370851755174,
+                    0.044802370851755174,
+                    -0.508629699630796,
+                    -0.8586508742123365
+                ),
+                Grad4(
+                    -0.03381941603233842,
+                    -0.03381941603233842,
+                    -0.03381941603233842,
+                    -0.9982828964265062
+                ),
+                Grad4(
+                    -0.6740059517812944,
+                    -0.3239847771997537,
+                    -0.3239847771997537,
+                    0.5794684678643381
+                ),
+                Grad4(
+                    -0.7504883828755602,
+                    -0.4004672082940195,
+                    0.15296486218853164,
+                    0.5029860367700724
+                ),
+                Grad4(
+                    -0.7504883828755602,
+                    0.15296486218853164,
+                    -0.4004672082940195,
+                    0.5029860367700724
+                ),
+                Grad4(
+                    -0.8828161875373585,
+                    0.08164729285680945,
+                    0.08164729285680945,
+                    0.4553054119602712
+                ),
+                Grad4(
+                    -0.4553054119602712,
+                    -0.08164729285680945,
+                    -0.08164729285680945,
+                    0.8828161875373585
+                ),
+                Grad4(
+                    -0.5029860367700724,
+                    -0.15296486218853164,
+                    0.4004672082940195,
+                    0.7504883828755602
+                ),
+                Grad4(
+                    -0.5029860367700724,
+                    0.4004672082940195,
+                    -0.15296486218853164,
+                    0.7504883828755602
+                ),
+                Grad4(
+                    -0.5794684678643381,
+                    0.3239847771997537,
+                    0.3239847771997537,
+                    0.6740059517812944
+                ),
+                Grad4(
+                    -0.3239847771997537,
+                    -0.6740059517812944,
+                    -0.3239847771997537,
+                    0.5794684678643381
+                ),
+                Grad4(
+                    -0.4004672082940195,
+                    -0.7504883828755602,
+                    0.15296486218853164,
+                    0.5029860367700724
+                ),
+                Grad4(
+                    0.15296486218853164,
+                    -0.7504883828755602,
+                    -0.4004672082940195,
+                    0.5029860367700724
+                ),
+                Grad4(
+                    0.08164729285680945,
+                    -0.8828161875373585,
+                    0.08164729285680945,
+                    0.4553054119602712
+                ),
+                Grad4(
+                    -0.08164729285680945,
+                    -0.4553054119602712,
+                    -0.08164729285680945,
+                    0.8828161875373585
+                ),
+                Grad4(
+                    -0.15296486218853164,
+                    -0.5029860367700724,
+                    0.4004672082940195,
+                    0.7504883828755602
+                ),
+                Grad4(
+                    0.4004672082940195,
+                    -0.5029860367700724,
+                    -0.15296486218853164,
+                    0.7504883828755602
+                ),
+                Grad4(
+                    0.3239847771997537,
+                    -0.5794684678643381,
+                    0.3239847771997537,
+                    0.6740059517812944
+                ),
+                Grad4(
+                    -0.3239847771997537,
+                    -0.3239847771997537,
+                    -0.6740059517812944,
+                    0.5794684678643381
+                ),
+                Grad4(
+                    -0.4004672082940195,
+                    0.15296486218853164,
+                    -0.7504883828755602,
+                    0.5029860367700724
+                ),
+                Grad4(
+                    0.15296486218853164,
+                    -0.4004672082940195,
+                    -0.7504883828755602,
+                    0.5029860367700724
+                ),
+                Grad4(
+                    0.08164729285680945,
+                    0.08164729285680945,
+                    -0.8828161875373585,
+                    0.4553054119602712
+                ),
+                Grad4(
+                    -0.08164729285680945,
+                    -0.08164729285680945,
+                    -0.4553054119602712,
+                    0.8828161875373585
+                ),
+                Grad4(
+                    -0.15296486218853164,
+                    0.4004672082940195,
+                    -0.5029860367700724,
+                    0.7504883828755602
+                ),
+                Grad4(
+                    0.4004672082940195,
+                    -0.15296486218853164,
+                    -0.5029860367700724,
+                    0.7504883828755602
+                ),
+                Grad4(
+                    0.3239847771997537,
+                    0.3239847771997537,
+                    -0.5794684678643381,
+                    0.6740059517812944
+                ),
+                Grad4(
+                    -0.6740059517812944,
+                    -0.3239847771997537,
+                    0.5794684678643381,
+                    -0.3239847771997537
+                ),
+                Grad4(
+                    -0.7504883828755602,
+                    -0.4004672082940195,
+                    0.5029860367700724,
+                    0.15296486218853164
+                ),
+                Grad4(
+                    -0.7504883828755602,
+                    0.15296486218853164,
+                    0.5029860367700724,
+                    -0.4004672082940195
+                ),
+                Grad4(
+                    -0.8828161875373585,
+                    0.08164729285680945,
+                    0.4553054119602712,
+                    0.08164729285680945
+                ),
+                Grad4(
+                    -0.4553054119602712,
+                    -0.08164729285680945,
+                    0.8828161875373585,
+                    -0.08164729285680945
+                ),
+                Grad4(
+                    -0.5029860367700724,
+                    -0.15296486218853164,
+                    0.7504883828755602,
+                    0.4004672082940195
+                ),
+                Grad4(
+                    -0.5029860367700724,
+                    0.4004672082940195,
+                    0.7504883828755602,
+                    -0.15296486218853164
+                ),
+                Grad4(
+                    -0.5794684678643381,
+                    0.3239847771997537,
+                    0.6740059517812944,
+                    0.3239847771997537
+                ),
+                Grad4(
+                    -0.3239847771997537,
+                    -0.6740059517812944,
+                    0.5794684678643381,
+                    -0.3239847771997537
+                ),
+                Grad4(
+                    -0.4004672082940195,
+                    -0.7504883828755602,
+                    0.5029860367700724,
+                    0.15296486218853164
+                ),
+                Grad4(
+                    0.15296486218853164,
+                    -0.7504883828755602,
+                    0.5029860367700724,
+                    -0.4004672082940195
+                ),
+                Grad4(
+                    0.08164729285680945,
+                    -0.8828161875373585,
+                    0.4553054119602712,
+                    0.08164729285680945
+                ),
+                Grad4(
+                    -0.08164729285680945,
+                    -0.4553054119602712,
+                    0.8828161875373585,
+                    -0.08164729285680945
+                ),
+                Grad4(
+                    -0.15296486218853164,
+                    -0.5029860367700724,
+                    0.7504883828755602,
+                    0.4004672082940195
+                ),
+                Grad4(
+                    0.4004672082940195,
+                    -0.5029860367700724,
+                    0.7504883828755602,
+                    -0.15296486218853164
+                ),
+                Grad4(
+                    0.3239847771997537,
+                    -0.5794684678643381,
+                    0.6740059517812944,
+                    0.3239847771997537
+                ),
+                Grad4(
+                    -0.3239847771997537,
+                    -0.3239847771997537,
+                    0.5794684678643381,
+                    -0.6740059517812944
+                ),
+                Grad4(
+                    -0.4004672082940195,
+                    0.15296486218853164,
+                    0.5029860367700724,
+                    -0.7504883828755602
+                ),
+                Grad4(
+                    0.15296486218853164,
+                    -0.4004672082940195,
+                    0.5029860367700724,
+                    -0.7504883828755602
+                ),
+                Grad4(
+                    0.08164729285680945,
+                    0.08164729285680945,
+                    0.4553054119602712,
+                    -0.8828161875373585
+                ),
+                Grad4(
+                    -0.08164729285680945,
+                    -0.08164729285680945,
+                    0.8828161875373585,
+                    -0.4553054119602712
+                ),
+                Grad4(
+                    -0.15296486218853164,
+                    0.4004672082940195,
+                    0.7504883828755602,
+                    -0.5029860367700724
+                ),
+                Grad4(
+                    0.4004672082940195,
+                    -0.15296486218853164,
+                    0.7504883828755602,
+                    -0.5029860367700724
+                ),
+                Grad4(
+                    0.3239847771997537,
+                    0.3239847771997537,
+                    0.6740059517812944,
+                    -0.5794684678643381
+                ),
+                Grad4(
+                    -0.6740059517812944,
+                    0.5794684678643381,
+                    -0.3239847771997537,
+                    -0.3239847771997537
+                ),
+                Grad4(
+                    -0.7504883828755602,
+                    0.5029860367700724,
+                    -0.4004672082940195,
+                    0.15296486218853164
+                ),
+                Grad4(
+                    -0.7504883828755602,
+                    0.5029860367700724,
+                    0.15296486218853164,
+                    -0.4004672082940195
+                ),
+                Grad4(
+                    -0.8828161875373585,
+                    0.4553054119602712,
+                    0.08164729285680945,
+                    0.08164729285680945
+                ),
+                Grad4(
+                    -0.4553054119602712,
+                    0.8828161875373585,
+                    -0.08164729285680945,
+                    -0.08164729285680945
+                ),
+                Grad4(
+                    -0.5029860367700724,
+                    0.7504883828755602,
+                    -0.15296486218853164,
+                    0.4004672082940195
+                ),
+                Grad4(
+                    -0.5029860367700724,
+                    0.7504883828755602,
+                    0.4004672082940195,
+                    -0.15296486218853164
+                ),
+                Grad4(
+                    -0.5794684678643381,
+                    0.6740059517812944,
+                    0.3239847771997537,
+                    0.3239847771997537
+                ),
+                Grad4(
+                    -0.3239847771997537,
+                    0.5794684678643381,
+                    -0.6740059517812944,
+                    -0.3239847771997537
+                ),
+                Grad4(
+                    -0.4004672082940195,
+                    0.5029860367700724,
+                    -0.7504883828755602,
+                    0.15296486218853164
+                ),
+                Grad4(
+                    0.15296486218853164,
+                    0.5029860367700724,
+                    -0.7504883828755602,
+                    -0.4004672082940195
+                ),
+                Grad4(
+                    0.08164729285680945,
+                    0.4553054119602712,
+                    -0.8828161875373585,
+                    0.08164729285680945
+                ),
+                Grad4(
+                    -0.08164729285680945,
+                    0.8828161875373585,
+                    -0.4553054119602712,
+                    -0.08164729285680945
+                ),
+                Grad4(
+                    -0.15296486218853164,
+                    0.7504883828755602,
+                    -0.5029860367700724,
+                    0.4004672082940195
+                ),
+                Grad4(
+                    0.4004672082940195,
+                    0.7504883828755602,
+                    -0.5029860367700724,
+                    -0.15296486218853164
+                ),
+                Grad4(
+                    0.3239847771997537,
+                    0.6740059517812944,
+                    -0.5794684678643381,
+                    0.3239847771997537
+                ),
+                Grad4(
+                    -0.3239847771997537,
+                    0.5794684678643381,
+                    -0.3239847771997537,
+                    -0.6740059517812944
+                ),
+                Grad4(
+                    -0.4004672082940195,
+                    0.5029860367700724,
+                    0.15296486218853164,
+                    -0.7504883828755602
+                ),
+                Grad4(
+                    0.15296486218853164,
+                    0.5029860367700724,
+                    -0.4004672082940195,
+                    -0.7504883828755602
+                ),
+                Grad4(
+                    0.08164729285680945,
+                    0.4553054119602712,
+                    0.08164729285680945,
+                    -0.8828161875373585
+                ),
+                Grad4(
+                    -0.08164729285680945,
+                    0.8828161875373585,
+                    -0.08164729285680945,
+                    -0.4553054119602712
+                ),
+                Grad4(
+                    -0.15296486218853164,
+                    0.7504883828755602,
+                    0.4004672082940195,
+                    -0.5029860367700724
+                ),
+                Grad4(
+                    0.4004672082940195,
+                    0.7504883828755602,
+                    -0.15296486218853164,
+                    -0.5029860367700724
+                ),
+                Grad4(
+                    0.3239847771997537,
+                    0.6740059517812944,
+                    0.3239847771997537,
+                    -0.5794684678643381
+                ),
+                Grad4(
+                    0.5794684678643381,
+                    -0.6740059517812944,
+                    -0.3239847771997537,
+                    -0.3239847771997537
+                ),
+                Grad4(
+                    0.5029860367700724,
+                    -0.7504883828755602,
+                    -0.4004672082940195,
+                    0.15296486218853164
+                ),
+                Grad4(
+                    0.5029860367700724,
+                    -0.7504883828755602,
+                    0.15296486218853164,
+                    -0.4004672082940195
+                ),
+                Grad4(
+                    0.4553054119602712,
+                    -0.8828161875373585,
+                    0.08164729285680945,
+                    0.08164729285680945
+                ),
+                Grad4(
+                    0.8828161875373585,
+                    -0.4553054119602712,
+                    -0.08164729285680945,
+                    -0.08164729285680945
+                ),
+                Grad4(
+                    0.7504883828755602,
+                    -0.5029860367700724,
+                    -0.15296486218853164,
+                    0.4004672082940195
+                ),
+                Grad4(
+                    0.7504883828755602,
+                    -0.5029860367700724,
+                    0.4004672082940195,
+                    -0.15296486218853164
+                ),
+                Grad4(
+                    0.6740059517812944,
+                    -0.5794684678643381,
+                    0.3239847771997537,
+                    0.3239847771997537
+                ),
+                Grad4(
+                    0.5794684678643381,
+                    -0.3239847771997537,
+                    -0.6740059517812944,
+                    -0.3239847771997537
+                ),
+                Grad4(
+                    0.5029860367700724,
+                    -0.4004672082940195,
+                    -0.7504883828755602,
+                    0.15296486218853164
+                ),
+                Grad4(
+                    0.5029860367700724,
+                    0.15296486218853164,
+                    -0.7504883828755602,
+                    -0.4004672082940195
+                ),
+                Grad4(
+                    0.4553054119602712,
+                    0.08164729285680945,
+                    -0.8828161875373585,
+                    0.08164729285680945
+                ),
+                Grad4(
+                    0.8828161875373585,
+                    -0.08164729285680945,
+                    -0.4553054119602712,
+                    -0.08164729285680945
+                ),
+                Grad4(
+                    0.7504883828755602,
+                    -0.15296486218853164,
+                    -0.5029860367700724,
+                    0.4004672082940195
+                ),
+                Grad4(
+                    0.7504883828755602,
+                    0.4004672082940195,
+                    -0.5029860367700724,
+                    -0.15296486218853164
+                ),
+                Grad4(
+                    0.6740059517812944,
+                    0.3239847771997537,
+                    -0.5794684678643381,
+                    0.3239847771997537
+                ),
+                Grad4(
+                    0.5794684678643381,
+                    -0.3239847771997537,
+                    -0.3239847771997537,
+                    -0.6740059517812944
+                ),
+                Grad4(
+                    0.5029860367700724,
+                    -0.4004672082940195,
+                    0.15296486218853164,
+                    -0.7504883828755602
+                ),
+                Grad4(
+                    0.5029860367700724,
+                    0.15296486218853164,
+                    -0.4004672082940195,
+                    -0.7504883828755602
+                ),
+                Grad4(
+                    0.4553054119602712,
+                    0.08164729285680945,
+                    0.08164729285680945,
+                    -0.8828161875373585
+                ),
+                Grad4(
+                    0.8828161875373585,
+                    -0.08164729285680945,
+                    -0.08164729285680945,
+                    -0.4553054119602712
+                ),
+                Grad4(
+                    0.7504883828755602,
+                    -0.15296486218853164,
+                    0.4004672082940195,
+                    -0.5029860367700724
+                ),
+                Grad4(
+                    0.7504883828755602,
+                    0.4004672082940195,
+                    -0.15296486218853164,
+                    -0.5029860367700724
+                ),
+                Grad4(
+                    0.6740059517812944,
+                    0.3239847771997537,
+                    0.3239847771997537,
+                    -0.5794684678643381
+                ),
+                Grad4(
+                    0.03381941603233842,
+                    0.03381941603233842,
+                    0.03381941603233842,
+                    0.9982828964265062
+                ),
+                Grad4(
+                    -0.044802370851755174,
+                    -0.044802370851755174,
+                    0.508629699630796,
+                    0.8586508742123365
+                ),
+                Grad4(
+                    -0.044802370851755174,
+                    0.508629699630796,
+                    -0.044802370851755174,
+                    0.8586508742123365
+                ),
+                Grad4(
+                    -0.12128480194602098,
+                    0.4321472685365301,
+                    0.4321472685365301,
+                    0.7821684431180708
+                ),
+                Grad4(
+                    0.508629699630796,
+                    -0.044802370851755174,
+                    -0.044802370851755174,
+                    0.8586508742123365
+                ),
+                Grad4(
+                    0.4321472685365301,
+                    -0.12128480194602098,
+                    0.4321472685365301,
+                    0.7821684431180708
+                ),
+                Grad4(
+                    0.4321472685365301,
+                    0.4321472685365301,
+                    -0.12128480194602098,
+                    0.7821684431180708
+                ),
+                Grad4(
+                    0.37968289875261624,
+                    0.37968289875261624,
+                    0.37968289875261624,
+                    0.753341017856078
+                ),
+                Grad4(
+                    0.03381941603233842,
+                    0.03381941603233842,
+                    0.9982828964265062,
+                    0.03381941603233842
+                ),
+                Grad4(
+                    -0.044802370851755174,
+                    0.044802370851755174,
+                    0.8586508742123365,
+                    0.508629699630796
+                ),
+                Grad4(
+                    -0.044802370851755174,
+                    0.508629699630796,
+                    0.8586508742123365,
+                    -0.044802370851755174
+                ),
+                Grad4(
+                    -0.12128480194602098,
+                    0.4321472685365301,
+                    0.7821684431180708,
+                    0.4321472685365301
+                ),
+                Grad4(
+                    0.508629699630796,
+                    -0.044802370851755174,
+                    0.8586508742123365,
+                    -0.044802370851755174
+                ),
+                Grad4(
+                    0.4321472685365301,
+                    -0.12128480194602098,
+                    0.7821684431180708,
+                    0.4321472685365301
+                ),
+                Grad4(
+                    0.4321472685365301,
+                    0.4321472685365301,
+                    0.7821684431180708,
+                    -0.12128480194602098
+                ),
+                Grad4(
+                    0.37968289875261624,
+                    0.37968289875261624,
+                    0.753341017856078,
+                    0.37968289875261624
+                ),
+                Grad4(
+                    0.03381941603233842,
+                    0.9982828964265062,
+                    0.03381941603233842,
+                    0.03381941603233842
+                ),
+                Grad4(
+                    -0.044802370851755174,
+                    0.8586508742123365,
+                    -0.044802370851755174,
+                    0.508629699630796
+                ),
+                Grad4(
+                    -0.044802370851755174,
+                    0.8586508742123365,
+                    0.508629699630796,
+                    -0.044802370851755174
+                ),
+                Grad4(
+                    -0.12128480194602098,
+                    0.7821684431180708,
+                    0.4321472685365301,
+                    0.4321472685365301
+                ),
+                Grad4(
+                    0.508629699630796,
+                    0.8586508742123365,
+                    -0.044802370851755174,
+                    -0.044802370851755174
+                ),
+                Grad4(
+                    0.4321472685365301,
+                    0.7821684431180708,
+                    -0.12128480194602098,
+                    0.4321472685365301
+                ),
+                Grad4(
+                    0.4321472685365301,
+                    0.7821684431180708,
+                    0.4321472685365301,
+                    -0.12128480194602098
+                ),
+                Grad4(
+                    0.37968289875261624,
+                    0.753341017856078,
+                    0.37968289875261624,
+                    0.37968289875261624
+                ),
+                Grad4(
+                    0.9982828964265062,
+                    0.03381941603233842,
+                    0.03381941603233842,
+                    0.03381941603233842
+                ),
+                Grad4(
+                    0.8586508742123365,
+                    -0.044802370851755174,
+                    -0.044802370851755174,
+                    0.508629699630796
+                ),
+                Grad4(
+                    0.8586508742123365,
+                    -0.044802370851755174,
+                    0.508629699630796,
+                    -0.044802370851755174
+                ),
+                Grad4(
+                    0.7821684431180708,
+                    -0.12128480194602098,
+                    0.4321472685365301,
+                    0.4321472685365301
+                ),
+                Grad4(
+                    0.8586508742123365,
+                    0.508629699630796,
+                    -0.044802370851755174,
+                    -0.044802370851755174
+                ),
+                Grad4(
+                    0.7821684431180708,
+                    0.4321472685365301,
+                    -0.12128480194602098,
+                    0.4321472685365301
+                ),
+                Grad4(
+                    0.7821684431180708,
+                    0.4321472685365301,
+                    0.4321472685365301,
+                    -0.12128480194602098
+                ),
+                Grad4(
+                    0.753341017856078,
+                    0.37968289875261624,
+                    0.37968289875261624,
+                    0.37968289875261624
+                )
             )
-            for (i in mpeciakk.world.grad4.indices) {
-                mpeciakk.world.grad4.get(i).dx /= N4
-                mpeciakk.world.grad4.get(i).dy /= N4
-                mpeciakk.world.grad4.get(i).dz /= N4
-                mpeciakk.world.grad4.get(i).dw /= N4
+            for (i in grad4.indices) {
+                grad4.get(i).dx /= N4
+                grad4.get(i).dy /= N4
+                grad4.get(i).dz /= N4
+                grad4.get(i).dw /= N4
             }
             for (i in 0 until PSIZE) {
-                GRADIENTS_4D[i] = mpeciakk.world.grad4.get(i % mpeciakk.world.grad4.size)
+                GRADIENTS_4D[i] = grad4[i % grad4.size]
             }
         }
     }

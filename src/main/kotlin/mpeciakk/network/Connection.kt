@@ -58,7 +58,7 @@ class Connection : ChannelInboundHandlerAdapter() {
             try {
                 packet.read(this, PacketByteBuf(Unpooled.wrappedBuffer(data)))
             } catch (e: Exception) {
-                e.message?.let { error(it) }
+                e.printStackTrace()
             }
         } else {
             error("Unhandled packet $packetId")

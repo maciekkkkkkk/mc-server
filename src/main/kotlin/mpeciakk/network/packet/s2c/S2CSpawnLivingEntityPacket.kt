@@ -24,10 +24,9 @@ class S2CSpawnLivingEntityPacket(
         buf.writeDouble(position.y)
         buf.writeDouble(position.z)
 
-        // TODO: find out what angle is
-        buf.writeByte(pitch.toInt())
-        buf.writeByte(yaw.toInt())
-        buf.writeByte(headPitch.toInt())
+        buf.writeAngle(pitch)
+        buf.writeAngle(yaw)
+        buf.writeAngle(headPitch)
 
         buf.writeShort(velocityX.toInt())
         buf.writeShort(velocityY.toInt())

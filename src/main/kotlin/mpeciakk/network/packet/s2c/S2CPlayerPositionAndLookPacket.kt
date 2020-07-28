@@ -1,15 +1,21 @@
 package mpeciakk.network.packet.s2c
 
+import mpeciakk.math.Vector3d
 import mpeciakk.network.packet.PacketByteBuf
 
-class S2CPlayerPositionAndLookPacket : S2CPacket(0x35) {
+class S2CPlayerPositionAndLookPacket(
+    private val position: Vector3d,
+    private val yaw: Float,
+    private val pitch: Float,
+    private val teleportId: Int
+) : S2CPacket(0x35) {
     override fun write(buf: PacketByteBuf) {
-        buf.writeDouble(1.0)
-        buf.writeDouble(20.0)
-        buf.writeDouble(1.0)
-        buf.writeFloat(1.0f)
-        buf.writeFloat(1.0f)
+        buf.writeDouble(position.x)
+        buf.writeDouble(position.y)
+        buf.writeDouble(position.z)
+        buf.writeFloat(yaw)
+        buf.writeFloat(pitch)
         buf.writeByte(0)
-        buf.writeVarInt(1)
+        buf.writeVarInt(teleportId)
     }
 }

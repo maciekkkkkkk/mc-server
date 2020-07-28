@@ -3,7 +3,7 @@ package mpeciakk.nbt
 import java.io.DataOutput
 import java.util.*
 
-class ListTag() : AbstractList<Tag>(), Tag {
+class ListTag : AbstractList<Tag>(), Tag {
 
     private val value = mutableListOf<Tag>()
     private var type: Byte = 0

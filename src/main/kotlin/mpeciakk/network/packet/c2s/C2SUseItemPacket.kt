@@ -11,7 +11,5 @@ class C2SUseItemPacket : C2SPacket(0x2E) {
             1 - off hand
          */
         val hand = buf.readVarInt()
-
-        println("kekw")
     }
 }

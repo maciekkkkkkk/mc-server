@@ -4,16 +4,16 @@ import mpeciakk.network.packet.PacketByteBuf
 import java.util.*
 import java.util.function.IntFunction
 
-/** Yeah it's bad */
 class ChunkSection {
-    var blockCount: Short = 0
-    var bitsPerBlock: Int = 4
-    var storage = FlexibleStorage(4)
+    var blockCount = 0
+    var bitsPerBlock = 14
+    var storage = FlexibleStorage(bitsPerBlock)
 
     private val palette = mutableListOf(0)
 
     operator fun set(x: Int, y: Int, z: Int, state: Int) {
         var id = if (this.bitsPerBlock <= 8) this.palette.indexOf(state) else state
+
         if (id == -1) {
             this.palette.add(state)
             if (this.palette.size > 1 shl this.bitsPerBlock) {
@@ -41,7 +41,12 @@ class ChunkSection {
             blockCount--
         }
 
-        storage[ind] = id
+        storage[ind] = id.toLong()
+    }
+
+    operator fun get(x: Int, y: Int, z: Int): Int {
+        val ind = index(x, y, z)
+        return storage[ind]
     }
 
     fun isEmpty(): Boolean {
@@ -50,7 +55,7 @@ class ChunkSection {
                 return false
             }
         }
-        return true
+        return false
     }
 
     companion object {
@@ -58,8 +63,10 @@ class ChunkSection {
             return y shl 8 or (z shl 4) or x
         }
 
+        private var done = false
+
         fun write(section: ChunkSection, buf: PacketByteBuf) {
-            buf.writeShort(section.blockCount.toInt())
+            buf.writeShort(section.blockCount)
             buf.writeByte(section.bitsPerBlock)
 
             if (section.bitsPerBlock <= 8) {
@@ -70,6 +77,13 @@ class ChunkSection {
             }
 
             val data = section.storage.data
+
+            if (!done) {
+                println(data.contentToString())
+
+                done = true
+            }
+
             buf.writeVarInt(data.size)
             buf.writeLongs(data)
         }

@@ -3,10 +3,7 @@ package mpeciakk.entity
 import com.google.gson.*
 import mpeciakk.inventory.Inventory
 import mpeciakk.network.Connection
-import mpeciakk.network.packet.s2c.S2CChatMessagePacket
-import mpeciakk.network.packet.s2c.S2CEntityPositionPacket
-import mpeciakk.network.packet.s2c.S2CPacket
-import mpeciakk.network.packet.s2c.S2CSpawnPlayerPacket
+import mpeciakk.network.packet.s2c.*
 import mpeciakk.text.TextComponent
 import java.lang.reflect.Type
 
@@ -24,12 +21,21 @@ class Player(val nick: String, val connection: Connection) : Entity() {
         )
     }
 
-    fun update() {
+    override fun tick() {
+        if (position != prevPosition) {
+            Connection.sendToAllExcept(
+                S2CEntityPositionPacket(
+                    id, ((position.x * 32 - prevPosition.x * 32) * 128).toInt(),
+                    ((position.y * 32 - prevPosition.y * 32) * 128).toInt(),
+                    ((position.z * 32 - prevPosition.z * 32) * 128).toInt(), onGround
+                ),
+                id
+            )
+        }
+
         Connection.sendToAllExcept(
-            S2CEntityPositionPacket(
-                id, ((position.x * 32 - prevPosition.x * 32) * 128).toInt(),
-                ((position.y * 32 - prevPosition.y * 32) * 128).toInt(),
-                ((position.z * 32 - prevPosition.z * 32) * 128).toInt(), onGround
+            S2CEntityRotationPacket(
+                id, yaw, pitch, onGround
             ),
             id
         )

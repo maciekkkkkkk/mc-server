@@ -24,7 +24,5 @@ class C2SPlayerPositionPacket : C2SPacket(0x12) {
         connection.player.position.y = y
         connection.player.position.z = z
         connection.player.onGround = onGround
-
-        connection.player.update()
     }
 }

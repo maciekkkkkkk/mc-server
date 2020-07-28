@@ -4,7 +4,7 @@ import mpeciakk.minecraftServer
 import mpeciakk.network.Connection
 import mpeciakk.network.SocketState
 import mpeciakk.network.packet.PacketByteBuf
-import mpeciakk.network.packet.s2c.*
+import mpeciakk.network.packet.s2c.S2CServerListPacket
 
 
 class C2SHandshakePacket : C2SPacket(0x00) {
@@ -39,7 +39,10 @@ class C2SHandshakePacket : C2SPacket(0x00) {
 
             minecraftServer.playerManager.connectPlayer(connection, nickname)
         } else if (connection.state == SocketState.PLAY) {
-            // TODO: identify this packet
+            // Teleport confirm packet
+
+            // Same id as given in S2CPlayerPositionAndLookPacket
+            val id = buf.readVarInt()
         }
     }
 }
